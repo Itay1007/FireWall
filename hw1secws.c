@@ -11,11 +11,18 @@
 static struct nf_hook_ops *nfho = NULL;
 
 
-static unsigned int hfunc(void *priv, struct sk_buff *skb,
+static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 			  const struct nf_hook_state *state)
 {
 	printk(PACKET_DROP_MSG);
 	return NF_DROP;
+}
+
+static unsigned int hfuncInPost(void *priv, struct sk_buff *skb,
+			  const struct nf_hool_state *state)
+{
+	printk(PACKET_ACCEPT_MSG);
+	return NF_ACCEPT;
 }
 
 
@@ -29,17 +36,21 @@ static unsigned int hfunc(void *priv, struct sk_buff *skb,
  * when we insert the module to the kernel
  */
 static int __init my_module_init_function(void) {
-	/* print temporarly debug message to the kernel */
-	printk(KERN_INFO "Hello World!\n");
 	/* set the global struct pointer */
 	nfho = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
 	/* set the nfho fields */
-	nfho->hook = (nf_hookfn*) hfunc; /* set the hook function */ 
-	nfho->hooknum= NF_INET_FORWARD; /* verdict packet in the prerouting state*/
+	nfho->hook = (nf_hookfn*) hfuncInForward; /* set the hook function */ 
+	nfho->hooknum = NF_INET_FORWARD; /* verdict packet in the prerouting state*/
 	nfho->pf = PF_INET; /* for IPv4 */
 
 	nf_register_net_hook(&init_net, nfho);
+
+	nfho->hook = (nf_hookfn*) hfuncInPost;
+	nfho->hooknum = NF_INET_POST_ROUTING;
+
+	nf_register_net_hook(&init_net, nfho);
+
 	return 0; /* if non-0 return means init_module failed */
 }
  
@@ -50,7 +61,6 @@ static int __init my_module_init_function(void) {
 static void __exit my_module_exit_function(void) {
 
 	/* print to the kernel temporary debug message */
-	printk(KERN_INFO "Goodbye World!\n");
 	nf_unregister_net_hook(&init_net, nfho);
 	kfree(nfho);
 }
