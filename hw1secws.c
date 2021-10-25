@@ -36,6 +36,7 @@ static unsigned int hfuncInPost(void *priv, struct sk_buff *skb,
  * when we insert the module to the kernel
  */
 static int __init my_module_init_function(void) {
+	printk("In  the init");
 	/* set the global struct pointer */
 	nfho = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
@@ -61,6 +62,7 @@ static int __init my_module_init_function(void) {
 static void __exit my_module_exit_function(void) {
 
 	/* print to the kernel temporary debug message */
+	printk("In an exit");
 	nf_unregister_net_hook(&init_net, nfho);
 	kfree(nfho);
 }
