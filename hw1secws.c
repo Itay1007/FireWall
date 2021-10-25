@@ -2,33 +2,28 @@
 #include <linux/kernel.h>	/* Needed for KERN_INFO and for the 						Macros */
 #include <linux/netfilter.h>
 #include <linux/netfilter_ipv4.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
+
 
 #define PACKET_ACCEPT_MSG "*** Packet Accepted ***"
 #define PACKET_DROP_MSG  "*** Packet Dropped ***"
+
+
 /* create a global struct variable to use the hook of Netfilter*/
 static struct nf_hook_ops *nfho = NULL;
 
 
-static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
+static unsigned int hfunc(void *priv, struct sk_buff *skb,
 			  const struct nf_hook_state *state)
 {
-	printk(PACKET_DROP_MSG);
-	return NF_DROP;
-}
-
-static unsigned int hfuncInPost(void *priv, struct sk_buff *skb,
-			  const struct nf_hool_state *state)
-{
+	if(state->hook == NF_INET_FORWARD)
+	{
+		printk(PACKET_DROP_MSG);
+		return NF_DROP;
+	}
+	
 	printk(PACKET_ACCEPT_MSG);
 	return NF_ACCEPT;
 }
-
-
-
-
-
 
 
 /*
@@ -36,19 +31,17 @@ static unsigned int hfuncInPost(void *priv, struct sk_buff *skb,
  * when we insert the module to the kernel
  */
 static int __init my_module_init_function(void) {
-	printk("In  the init");
 	/* set the global struct pointer */
 	nfho = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
 	/* set the nfho fields */
-	nfho->hook = (nf_hookfn*) hfuncInForward; /* set the hook function */ 
+	nfho->hook = (nf_hookfn*) hfunc; /* set the hook function */ 
 	nfho->hooknum = NF_INET_FORWARD; /* verdict packet in the prerouting state*/
 	nfho->pf = PF_INET; /* for IPv4 */
 
 	nf_register_net_hook(&init_net, nfho);
 
-	nfho->hook = (nf_hookfn*) hfuncInPost;
-	nfho->hooknum = NF_INET_POST_ROUTING;
+	nfho->hooknum = NF_INET_LOCAL_IN;
 
 	nf_register_net_hook(&init_net, nfho);
 
@@ -69,6 +62,7 @@ static void __exit my_module_exit_function(void) {
 
 module_init(my_module_init_function);
 module_exit(my_module_exit_function);
+
 
 
 
