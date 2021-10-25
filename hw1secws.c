@@ -1,9 +1,9 @@
+#include <linux/module.h>	/* Needed by all modules */
+#include <linux/kernel.h>	/* Needed for KERN_INFO and for the 						Macros */
 #include <linux/netfilter.h>
 #include <linux/netfilter_ipv4.h>
 #include <linux/tcp.h>
 #include <linux/udp.h>
-#include <linux/module.h>	/* Needed by all modules */
-#include <linux/kernel.h>	/* Needed for KERN_INFO and for the 						Macros */
 
 #define PACKET_ACCEPT_MSG "*** Packet Accepted ***"
 #define PACKET_DROP_MSG  "*** Packet Dropped ***"
@@ -14,21 +14,8 @@ static struct nf_hook_ops *nfho = NULL;
 static unsigned int hfunc(void *priv, struct sk_buff *skb,
 			  const struct nf_hook_state *state)
 {
-	struct iphdr *ip_header;
-	struct udphdr *udp_header;
-	
-	ipheader = ip_hdr(skb);
-	if()
-
-	/* if server to client directly drop the packet */
-	if(skb->dest == ip_clinet && skb->src == ip_server ||
-           skb->src == ip_server && skb_dest == ip_server)
-	{
-		printk(PACKET_DROP_MSG);
-		return NF_DROP;
-	}
-	printk(PACKET_ACCEPT_MSG);
-	return NF_ACCEPT;
+	printk(PACKET_DROP_MSG);
+	return NF_DROP;
 }
 
 
@@ -45,11 +32,11 @@ static int __init my_module_init_function(void) {
 	/* print temporarly debug message to the kernel */
 	printk(KERN_INFO "Hello World!\n");
 	/* set the global struct pointer */
-	nfho = (struct nf_hool_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
+	nfho = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
 	/* set the nfho fields */
 	nfho->hook = (nf_hookfn*) hfunc; /* set the hook function */ 
-	nfho->hooknum= NF_INET_PRE_ROUTING; /* verdict packet in the prerouting state*/
+	nfho->hooknum= NF_INET_FORWARD; /* verdict packet in the prerouting state*/
 	nfho->pf = PF_INET; /* for IPv4 */
 
 	nf_register_net_hook(&init_net, nfho);
