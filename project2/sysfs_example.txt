@@ -1,0 +1,23 @@
+root@FW-devel:/home/fw/sysfs_example# ls
+Makefile  sysfs_example.c
+root@FW-devel:/home/fw/sysfs_example# make
+make -C /lib/modules/3.2.0-37-generic-pae/build M=/home/fw/sysfs_example modules
+make[1]: Entering directory `/usr/src/linux-headers-3.2.0-37-generic-pae'
+  CC [M]  /home/fw/sysfs_example/sysfs_example.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /home/fw/sysfs_example/sysfs_example.mod.o
+  LD [M]  /home/fw/sysfs_example/sysfs_example.ko
+make[1]: Leaving directory `/usr/src/linux-headers-3.2.0-37-generic-pae'
+root@FW-devel:/home/fw/sysfs_example# ls
+Makefile  modules.order  Module.symvers  sysfs_example.c  sysfs_example.ko  sysfs_example.mod.c  sysfs_example.mod.o  sysfs_example.o
+root@FW-devel:/home/fw/sysfs_example# insmod sysfs_example.ko 
+root@FW-devel:/home/fw/sysfs_example# ls -la /dev/ | grep sysfs
+crw-------   1 root    root    250,   0 Mar 15 14:33 sysfs_class_sysfs_Device
+root@FW-devel:/home/fw/sysfs_example# cat /sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att 
+0
+root@FW-devel:/home/fw/sysfs_example# echo "5" > /sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att 
+root@FW-devel:/home/fw/sysfs_example# cat /sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att 
+5
+root@FW-devel:/home/fw/sysfs_example# rmmod sysfs_example
+root@FW-devel:/home/fw/sysfs_example# ls -la /dev/ | grep sysfs
