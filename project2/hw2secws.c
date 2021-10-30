@@ -16,10 +16,18 @@ MODULE_AUTHOR("Itay Barok");
 /* create a global struct variable to use the hook of Netfilter*/
 static struct nf_hook_ops *nfho = NULL;
 
+static int 	packets_accept_number = 0;
+static int 	packets_drop_number = 0;
+
 /* packets between server and client need to  be drop */
 static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 			  const struct nf_hook_state *state)
 {
+
+	packets_drop_number++;
+
+	update_packets_status(packets_accept_number, packets_drop_number);
+
 	printk(PACKET_DROP_MSG);
 	return NF_DROP;
 }
@@ -31,6 +39,11 @@ static unsigned int hfuncInInput(void *priv, struct sk_buff *skb,
 {
 	if(!skb)
 		return NF_ACCEPT;
+
+	
+	packets_accept_number++;
+
+	update_packets_status(packets_accept_number, packets_drop_number);
 
 	printk(PACKET_ACCEPT_MSG);
 	return NF_ACCEPT;
@@ -85,7 +98,7 @@ static int __init my_module_init_function(void) {
 
 	
 	//create char device
-	major_number = register_chrdev(0, "Sysfs_Device", &fops);\
+	major_number = register_chrdev(0, "Sysfs_Device", &fops);
 	if (major_number < 0)
 		return -1;
 		
@@ -114,6 +127,8 @@ static int __init my_module_init_function(void) {
 		unregister_chrdev(major_number, "Sysfs_Device");
 		return -1;
 	}
+
+	update_packets_status(0, 0);
 
 
 	return 0; /* if non-0 return means init_module failed */
