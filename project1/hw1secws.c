@@ -22,9 +22,19 @@ static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 }
 
 
-/* packets between server and FW or client and FW is acceped */
 static unsigned int hfuncInInput(void *priv, struct sk_buff *skb,
-			  const struct nf_hool_state *state)
+			  const struct nf_hook_state *state)
+{
+	if(!skb)
+		return NF_ACCEPT;
+
+	printk(PACKET_ACCEPT_MSG);
+	return NF_ACCEPT;
+}
+
+
+static unsigned int hfuncInLocalOut(void *priv, struct sk_buff *skb,
+			  const struct nf_hook_state *state)
 {
 	if(!skb)
 		return NF_ACCEPT;
@@ -52,6 +62,10 @@ static int __init my_module_init_function(void) {
 
 	nfho->hook = (nf_hookfn*) hfuncInInput;
 	nfho->hooknum = NF_INET_LOCAL_IN;
+	nf_register_net_hook(&init_net, nfho);
+
+	nfho->hook = (nf_hookfn*) hfuncInLocalOut;
+	nfho->hooknum = NF_INET_LOCAL_OUT;
 	nf_register_net_hook(&init_net, nfho);
 
 	return 0; /* if non-0 return means init_module failed */

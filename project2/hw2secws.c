@@ -134,6 +134,20 @@ static int __init my_module_init_function(void) {
 	return 0; /* if non-0 return means init_module failed */
 }
  
+
+void update_packets_status(int packets_accept, int packets_drop)
+{
+	fd = fopen("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att", "w"); 
+
+	char *packets_accept_str = itoa(packets_accept);
+	char *packets_drop_str = itoa(packets_drop); 
+	fputs(packets_accept_str, fd);
+	fputc('\n', fd);
+	fputs(packets_drop_str, fd);
+	fputc('\n');
+}
+
+
 /*
  * this function is called last when 
  * we remove the module from the kernel
