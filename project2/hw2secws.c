@@ -35,7 +35,7 @@ static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 
 /* packets between server and FW or client and FW is acceped */
 static unsigned int hfuncInInput(void *priv, struct sk_buff *skb,
-			  const struct nf_hool_state *state)
+			  const struct nf_hook_state *state)
 {
 	if(!skb)
 		return NF_ACCEPT;
