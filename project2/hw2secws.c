@@ -49,6 +49,16 @@ static unsigned int hfuncInInput(void *priv, struct sk_buff *skb,
 	return NF_ACCEPT;
 }
 
+static unsigned int hfuncInLocalOut(void *priv, struct sk_buff *skb,
+			  const struct nf_hook_state *state)
+{
+	if(!skb)
+		return NF_ACCEPT;
+
+	printk(PACKET_ACCEPT_MSG);
+	return NF_ACCEPT;
+}
+
 
 static int major_number;
 static struct class* sysfs_class = NULL;
@@ -94,6 +104,13 @@ static int __init my_module_init_function(void) {
 
 	nfho->hook = (nf_hookfn*) hfuncInInput;
 	nfho->hooknum = NF_INET_LOCAL_IN;
+	
+	nf_register_net_hook(&init_net, nfho);
+
+
+	nfho->hook = (nf_hookfn*) hfuncInLocalOut;
+	nfho->hooknum = NF_INET_LOCAL_OUT;
+	
 	nf_register_net_hook(&init_net, nfho);
 
 	
