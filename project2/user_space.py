@@ -16,9 +16,9 @@ def main():
         check_valid_input(args)
 
         if len(args) == 2: # the case that the cli is: <program name> 0
-        cleanup_packets_status()
+            cleanup_packets_status()
         else: # the case that the cli is: <program naem> 
-        show_packets_status()
+            show_packets_status()
 
     except TypeError as type_e:
         print(type_e)
@@ -26,6 +26,7 @@ def main():
         print(val_e)
     except RuntimeError as e:
         print(e)
+
 
 def check_valid_input(args):
     """
@@ -78,6 +79,7 @@ def print_packets_status(accept_number, drop_number, total):
     print("Number of accepted packets:", accept_number)
     print("Number of dropped packets:", drop_number)
     print("Total number of packets:", total)
+
 
 # check if the file is executed directly and call to main function to work
 if __name__ == "__main__":
