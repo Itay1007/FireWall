@@ -46,7 +46,7 @@ def show_packets_status():
         values = lst_values.split("\n")
         accept_number = int(values[0])
         drop_number = int(values[1])
-        total = values[0] + values[1]
+        total = accept_number + drop_number
 
         print_packets_status(accept_number, drop_number, total)
 
