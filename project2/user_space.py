@@ -44,8 +44,8 @@ def show_packets_status():
     with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att") as fd:
         lst_values = fd.read()
         values = lst_values.split("\n")
-        accept_number = values[0]
-        drop_number = values[1]
+        accept_number = int(values[0])
+        drop_number = int(values[1])
         total = values[0] + values[1]
 
         print_packets_status(accept_number, drop_number, total)
