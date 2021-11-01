@@ -54,7 +54,6 @@ def cleanup_packets_status():
     """
         cleanup the packets file
     """
-    print("here")
     with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att", "w") as fd:
         fd.truncate()
         fd.write("0\n0\n")
