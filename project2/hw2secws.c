@@ -30,7 +30,7 @@ static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 }
 
 
-/* packets between server and FW or client and FW is acceped */
+/* packets between server and FW or client and FW is accepted */
 static unsigned int hfuncInInput(void *priv, struct sk_buff *skb,
 			  const struct nf_hook_state *state)
 {
@@ -43,6 +43,7 @@ static unsigned int hfuncInInput(void *priv, struct sk_buff *skb,
 	return NF_ACCEPT;
 }
 
+/* packets between server and FW or client and FW is accepted */
 static unsigned int hfuncInLocalOut(void *priv, struct sk_buff *skb,
 			  const struct nf_hook_state *state)
 {
@@ -66,14 +67,15 @@ static struct file_operations fops = {
 
 ssize_t display(struct device *dev, struct device_attribute *attr, char *buf)	//sysfs show implementation
 {
-	return scnprintf(buf, PAGE_SIZE, "%u\n%u\n", packets_accept_number, packets_drop_number);
+	return scnprintf(buf, PAGE_SIZE, "%u\n%u\n", packets_accept_number, packets_drop_number); // set format and data in file
 }
 
 ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)	//sysfs store implementation
 {
 	int temp1, temp2;
-	if (sscanf(buf, "%u\n%u", &temp1, &temp2) == 1)
+	if (sscanf(buf, "%u\n%u", &temp1, &temp2) == 1) // get values from file base on the data format inside it
 	{
+		//cleanup of the packets values
 		packets_accept_number = 0;
 		packets_drop_number = 0;
 	}
