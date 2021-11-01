@@ -52,7 +52,7 @@ def show_packets_status():
 def print_packets_status(accpet_number, drop_number, total):
     print("Firewall Packets Summary:")
     print("Number of accepted packets:", accept_number)
-    print(f"Number of dropped packets: {drop_number}")
+    print("Number of dropped packets:", drop_number")
     print("Total number of packets:", total)
 
 
