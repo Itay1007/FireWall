@@ -41,7 +41,7 @@ def cleanup_packets_status():
 
 
 def show_packets_status():
-    with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device") as fd:
+    with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att") as fd:
         lst_values = fd.read()
         values = lst_values.split("\n")
         accept_number = values[0]
