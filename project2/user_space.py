@@ -40,7 +40,7 @@ def check_valid_input(args):
         
         arg_type = type(args[1])
         try:
-            cleanup_arg = int(cleanup_arg)
+            cleanup_arg = int(args[1])
         except TypeError as type_e:
             raise TypeError("Invalid type [{0}] not int".format(arg_type))
            
