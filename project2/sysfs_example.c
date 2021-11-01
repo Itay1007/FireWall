@@ -25,7 +25,7 @@ ssize_t modify(struct device *dev, struct device_attribute *attr, const char *bu
 {
 	int temp;
 	if (sscanf(buf, "%u", &temp) == 1)
-		sysfs_int = temp;
+		sysfs_int = 2;/*temp;*/
 	return count;	
 }
 
