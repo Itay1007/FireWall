@@ -88,27 +88,35 @@ static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO , display, modify);
 static int __init my_module_init_function(void) {
 	/* set the global struct pointer */
 	nfho = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
+	nfho2 = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
+	nfho3 = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
 	/* set the nfho fields */
 	nfho->hook = (nf_hookfn*) hfuncInForward; /* set the hook function */ 
 	nfho->hooknum = NF_INET_FORWARD; /* verdict packet in the prerouting state*/
 	nfho->pf = PF_INET; /* for IPv4 */
 
-	nf_register_net_hook(&init_net, nfho);
+	if(nf_register_net_hook(&init_net, nfho))
+		return -1;
 
-
-	nfho->hook = (nf_hookfn*) hfuncInInput;
-	nfho->hooknum = NF_INET_LOCAL_IN;
+	/* set the nfho fields */
+	nfho2->hook = (nf_hookfn*) hfuncInInput; /* set the hook function */ 
+	nfho2->hooknum = NF_INET_LOCAL_IN; /* verdict packet in the prerouting state*/
+	nfho2->pf = PF_INET; /* for IPv4 */
 	
-	nf_register_net_hook(&init_net, nfho);
+	if(nf_register_net_hook(&init_net, nfho2))
+		return -1;
 
 
-	nfho->hook = (nf_hookfn*) hfuncInLocalOut;
-	nfho->hooknum = NF_INET_LOCAL_OUT;
+	/* set the nfho fields */
+	nfho3->hook = (nf_hookfn*) hfuncInLocalOut; /* set the hook function */ 
+	nfho3->hooknum = NF_INET_LOCAL_OUT; /* verdict packet in the prerouting state*/
+	nfho3->pf = PF_INET; /* for IPv4 */
 	
-	nf_register_net_hook(&init_net, nfho);
-
+	if(nf_register_net_hook(&init_net, nfho3))
+		return -1;
 	
+
 	//create char device
 	major_number = register_chrdev(0, "Sysfs_Device", &fops);
 	if (major_number < 0)
@@ -155,7 +163,11 @@ static int __init my_module_init_function(void) {
 static void __exit my_module_exit_function(void) {
 
 	nf_unregister_net_hook(&init_net, nfho);
+	nf_unregister_net_hook(&init_net, nfho2);
+	nf_unregister_net_hook(&init_net, nfho3);
 	kfree(nfho);
+	kfree(nfho2);
+	kfree(nfho3);
 
 
 	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
