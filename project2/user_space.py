@@ -36,20 +36,22 @@ def check_valid_input(args):
 
 def cleanup_packets_status():
     with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device") as fd:
-        lst_values = fd.read()
-        values = lst_values.split("\n")
-        accpet_number = values[0]
-        drop_number = values[1]
-        total = values[0] + values[1]
-
-        print_packets_status(accpet_number, drop_number, total)
+        fd.truncate()
+        fd.write("0\n0\n")
 
 
 def show_packets_status():
-    print("In show_packets_status()")
+    with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device") as fd:
+        lst_values = fd.read()
+        values = lst_values.split("\n")
+        accept_number = values[0]
+        drop_number = values[1]
+        total = values[0] + values[1]
+
+        print_packets_status(accept_number, drop_number, total)
 
 
-def print_packets_status(accpet_number, drop_number, total):
+def print_packets_status(accept_number, drop_number, total):
     print("Firewall Packets Summary:")
     print("Number of accepted packets:", accept_number)
     print("Number of dropped packets:", drop_number)
