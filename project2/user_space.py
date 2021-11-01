@@ -37,13 +37,15 @@ def check_valid_input(args):
         pass
     # cleanup case
     elif len(args) == 2:
-        cleanup_arg = args[1]
-        arg_type = type(cleanup_arg)
-        if arg_type != int: # argument need to be integer
+        
+        arg_type = type(args[1])
+        try:
+            cleanup_arg = int(cleanup_arg)
+        except TypeError as type_e:
             raise TypeError("Invalid type [{0}] not int".format(arg_type))
-        else:
-            if cleanup_arg != 0: # argument need to be 0
-                    raise ValueError("Invalid value [{0}] not zero".format(args[1]))
+           
+        if cleanup_arg != 0: # argument need to be 0
+            raise ValueError("Invalid value [{0}] not zero".format(args[1]))
     else:  # too many arguments on cli need to be one more other than program name as most
         raise RuntimeError("Too many arguments [{0}] in cli not program name and optional cleanup argument".format(len(args)))
 
