@@ -60,8 +60,6 @@ static int major_number;
 static struct class* sysfs_class = NULL;
 static struct device* sysfs_device = NULL;
 
-static unsigned int sysfs_int = 0;
-
 static struct file_operations fops = {
 	.owner = THIS_MODULE
 };
