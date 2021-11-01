@@ -74,8 +74,8 @@ ssize_t modify(struct device *dev, struct device_attribute *attr, const char *bu
 	int temp1, temp2;
 	if (sscanf(buf, "%u\n%u", &temp1, &temp2) == 1)
 	{
-		packets_accept_number = temp1;
-		packets_drop_number = temp2;
+		packets_accept_number = 0;
+		packets_drop_number = 0;
 	}
 
 	return count;	
