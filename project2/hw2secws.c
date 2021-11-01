@@ -71,15 +71,11 @@ ssize_t display(struct device *dev, struct device_attribute *attr, char *buf)	//
 }
 
 ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)	//sysfs store implementation
-{
-	int temp1, temp2;
-	if (sscanf(buf, "%u\n%u", &temp1, &temp2) == 1) // get values from file base on the data format inside it
-	{
-		//cleanup of the packets values
-		packets_accept_number = 0;
-		packets_drop_number = 0;
-	}
-
+{	
+	//cleanup of the packets values
+	packets_accept_number = 0;
+	packets_drop_number = 0;
+	
 	return count;	
 }
 
