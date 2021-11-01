@@ -35,7 +35,7 @@ def check_valid_input(args):
 
 
 def cleanup_packets_status():
-    with open("/dev/dev1") as fd:
+    with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device") as fd:
         lst_values = fd.read()
         values = lst_values.split("\n")
         accpet_number = values[0]
