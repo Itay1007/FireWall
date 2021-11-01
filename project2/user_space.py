@@ -39,7 +39,7 @@ def check_valid_input(args):
     elif len(args) == 2:
         cleanup_arg = args[1]
         arg_type = type(cleanup_arg)
-        if arge_type != int: # argument need to be integer
+        if arg_type != int: # argument need to be integer
             raise TypeError("Invalid type [{0}] not int".format(arg_type))
         else:
             if cleanup_arg != 0: # argument need to be 0
