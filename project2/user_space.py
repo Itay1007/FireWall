@@ -35,7 +35,7 @@ def check_valid_input(args):
 
 
 def cleanup_packets_status():
-    with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device") as fd:
+    with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att") as fd:
         fd.truncate()
         fd.write("0\n0\n")
 
