@@ -26,7 +26,6 @@ static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 
 	packets_drop_number++;
 
-	update_packets_status(packets_accept_number, packets_drop_number);
 
 	printk(PACKET_DROP_MSG);
 	return NF_DROP;
@@ -43,7 +42,6 @@ static unsigned int hfuncInInput(void *priv, struct sk_buff *skb,
 	
 	packets_accept_number++;
 
-	update_packets_status(packets_accept_number, packets_drop_number);
 
 	printk(PACKET_ACCEPT_MSG);
 	return NF_ACCEPT;
@@ -54,6 +52,9 @@ static unsigned int hfuncInLocalOut(void *priv, struct sk_buff *skb,
 {
 	if(!skb)
 		return NF_ACCEPT;
+
+	packets_accept_number++;
+
 
 	printk(PACKET_ACCEPT_MSG);
 	return NF_ACCEPT;
@@ -79,12 +80,12 @@ ssize_t modify(struct device *dev, struct device_attribute *attr, const char *bu
 {
 	int temp;
 	if (sscanf(buf, "%u", &temp) == 1)
-		sysfs_int = temp;
+		sysfs_int = 2;/*temp;*/
 	return count;	
 }
 
-static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO , display, modify);
-
+static DEVICE_ATTR(sysfs_att_accept, S_IWUSR | S_IRUGO , display, modify);
+static DEVICE_ATTR(sysfs_att_drop, S_IWUSR | S_IRUGO , display, modify);
 
 /*
  * this initialization function is called first  
@@ -137,7 +138,7 @@ static int __init my_module_init_function(void) {
 	}
 	
 	//create sysfs file attributes	
-	if (device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att.attr))
+	if (device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att_accept.attr))
 	{
 		device_destroy(sysfs_class, MKDEV(major_number, 0));
 		class_destroy(sysfs_class);
@@ -145,24 +146,21 @@ static int __init my_module_init_function(void) {
 		return -1;
 	}
 
-	update_packets_status(0, 0);
+	//create sysfs file attributes	
+	if (device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att_drop.attr))
+	{
+		device_destroy(sysfs_class, MKDEV(major_number, 0));
+		class_destroy(sysfs_class);
+		unregister_chrdev(major_number, "Sysfs_Device");
+		return -1;
+	}
+
 
 
 	return 0; /* if non-0 return means init_module failed */
 }
  
 
-void update_packets_status(int packets_accept, int packets_drop)
-{
-	fd = fopen("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att", "w"); 
-
-	char *packets_accept_str = itoa(packets_accept);
-	char *packets_drop_str = itoa(packets_drop); 
-	fputs(packets_accept_str, fd);
-	fputc('\n', fd);
-	fputs(packets_drop_str, fd);
-	fputc('\n');
-}
 
 
 /*
