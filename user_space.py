@@ -73,7 +73,14 @@ def show_rules():
 
 
 def load_rules(args):
-    pass # TODO: (1) check what load rules means and (2) implement it
+    with open() as fd_fw_new_content:
+        str_rules = fd_fw_new_content.read()
+        # TODO: check no #rules > 50
+
+        # TODO: seperate each field with a space for example: 127.0.0.1 / 24
+
+        with open("/sys/class/fw/rules/rules") as fd_fw_table: # TODO: change path
+            fd_fw_table.write(str_rules)
 
 
 def check_valid_input(args):

@@ -20,20 +20,20 @@ static struct nf_hook_ops *nfho = NULL;
 static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 			  const struct nf_hook_state *state)
 {
-	int valid = update_fw_table(priv, skb, state);
+	int valid = verdict_packet(priv, skb, state);
 	update_log_table(priv, skb, state);
 	
-	if(valid)
-		return NF_ACCEPT;
+	if(valid) return NF_ACCEPT;
 	return NF_DROP;
 }
-
 
 /*
  * this initialization function is called first  
  * when we insert the module to the kernel
  */
 static int __init my_module_init_function(void) {
+	// cal for init of firewall module and init of log table
+
 	/* set the global struct pointer */
 	if((nfho = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL)) == NULL)
 	{
@@ -72,8 +72,3 @@ static void __exit my_module_exit_function(void) {
 
 module_init(my_module_init_function);
 module_exit(my_module_exit_function);
-
-
-
-
-
