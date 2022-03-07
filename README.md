@@ -1,9 +1,3 @@
 # information_security_workshop
 
-Contains all the assigments.
-
-The final and big assigment is my final prject
-
-of the computer science degree in 
-
-Tel Aviv University
+In progress, FireWall creation from scratch 3rd year project in my degree in Computer Science as I was chosen to take part in a collaboration between Checkpoint and Tel Aviv University
