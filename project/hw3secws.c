@@ -5,7 +5,7 @@
 #include <linux/fs.h>
 #include <linux/device.h>
 
-
+// some comment
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
 
