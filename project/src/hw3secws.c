@@ -6,7 +6,6 @@
 #include <linux/device.h>
 
 #include "fw.h"
-#include "there is a lot of time to play this game and it is a lot of thing "
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
