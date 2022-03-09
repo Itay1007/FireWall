@@ -5,7 +5,9 @@
 #include <linux/fs.h>
 #include <linux/device.h>
 
-// some comment
+#include "fw.h"
+#include "there is a lot of time to play this game and it is a lot of thing "
+
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
 
@@ -16,14 +18,14 @@ static struct nf_hook_ops *nfho = NULL;
 // static unsigned int packets_drop_number = 0;
 
 
-/* packets between server and client need to  be drop */
 static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 			  const struct nf_hook_state *state)
 {
 	int valid = verdict_packet(priv, skb, state);
-	update_log_table(priv, skb, state);
 	
 	if(valid) return NF_ACCEPT;
+	
+	update_log_table(priv, skb, state);
 	return NF_DROP;
 }
 
