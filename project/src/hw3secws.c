@@ -24,7 +24,7 @@ static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 	
 	if(valid) return NF_ACCEPT;
 	
-	update_log_table(priv, skb, state);
+	//update_log_table(priv, skb, state);
 	return NF_DROP;
 }
 
