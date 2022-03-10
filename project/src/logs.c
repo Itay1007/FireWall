@@ -1,4 +1,6 @@
-/* #include "fw.h"
+#if 0
+
+#include "fw.h"
 #include <linux/time.h>
 #include <linux/device.h>
 #include <linux/uaccess.h>
@@ -160,4 +162,4 @@ module_exit(my_logs_table_exit_function);
 
 
 
-
+#endif
