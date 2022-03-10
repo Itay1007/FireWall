@@ -194,7 +194,7 @@ static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO , display, modify);
  * this initialization function is called first  
  * when we insert the module to the kernel
  */
-static int __init my_fw_table_init_function(void) {
+static int __init my_filtering_table_init_function(void) {
 	// path = "/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att"
 
 	//create char device
@@ -236,7 +236,7 @@ static int __init my_fw_table_init_function(void) {
  * this function is called last when 
  * we remove the module from the kernel
  */
-static void __exit my_fw_table_exit_function(void) {
+static void __exit my_filtering_table_exit_function(void) {
 
 	nf_unregister_net_hook(&init_net, nfho);
 	kfree(nfho);

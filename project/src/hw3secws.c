@@ -51,8 +51,8 @@ static int __init my_module_init_function(void) {
 		return -1;
 	}
 
-	my_fw_table_init_function();
-	my_logs_table_init_function();
+	my_filtering_table_init_function();
+	//my_logs_table_init_function();
 
 	return 0; /* if non-0 return means init_module failed */
 }
@@ -73,8 +73,8 @@ static void __exit my_module_exit_function(void) {
 	class_destroy(sysfs_class);
 	unregister_chrdev(major_number, "Sysfs_Device");
 
-	my_fw_table_exit_function();
-	my_logs_table_exit_function();
+	my_filtering_table_exit_function();
+	//my_logs_table_exit_function();
 }
 
 module_init(my_module_init_function);
