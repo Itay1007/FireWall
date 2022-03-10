@@ -15,8 +15,6 @@ static struct file_operations fops = {
 	.owner = THIS_MODULE
 };
 
-int verdict_paket_with_rule(void *priv, struct sk_buff *skb, const struct nf_hook_state *state, rule_t rule);
-int verdict_packet(void *priv, struct sk_buff *skb, const struct nf_hook_state *state);
 
 
 
@@ -172,6 +170,7 @@ int verdict_packet(void *priv, struct sk_buff *skb, const struct nf_hook_state *
 
 int verdict_paket_with_rule(void *priv, struct sk_buff *skb, const struct nf_hook_state *state, rule_t rule)
 {
+	return 1;
 	/*
 	rule.rule_name, // seems not rellevant ?
 	rule.direction,

@@ -20,7 +20,6 @@ static int major_number;					// Major of the char device
 static struct class* sysfs_class = NULL;	// The device's class
 static struct device* sysfs_device = NULL;	// The device's name
 
-
 /* Our custom open function  for file_operations --------------------- */
 int my_open(struct inode *_inode, struct file *_file) { // Each time we open the device we initilize the changing variables ( so we will be able to read it again and again
 	index = 0;
