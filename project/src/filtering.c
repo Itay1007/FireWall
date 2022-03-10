@@ -45,20 +45,20 @@ char * str_of_table()
 char * str_of_table_ent(int i)
 {
 	char *str = "";
-	rule_t rule = fw_table[i];
-	sprintf(str, "%s %s %s/%s %s/%s %s %s %s %s %s\n", 
-				rule.rule_name,
-				rule.direction,
-				rule.src_ip,
-				rule.src_prefix_size,
-				rule.dst_ip,
-				rule.dst_prefix_size,
-				rule.protocol,
-				rule.src_port,
-				rule.dst_port,
-				rule.ack,
-				rule.action
-			);
+	// rule_t rule = fw_table[i];
+	// sprintf(str, "%s %s %s/%s %s/%s %s %s %s %s %s\n", 
+	// 			rule.rule_name,
+	// 			rule.direction,
+	// 			rule.src_ip,
+	// 			rule.src_prefix_size,
+	// 			rule.dst_ip,
+	// 			rule.dst_prefix_size,
+	// 			rule.protocol,
+	// 			rule.src_port,
+	// 			rule.dst_port,
+	// 			rule.ack,
+	// 			rule.action
+	// 		);
 	return str;
 }
 
