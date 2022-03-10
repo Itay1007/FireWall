@@ -3,6 +3,7 @@
 #define ACCEPT 1
 #define DROP 0
 
+char * str_of_table();
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
@@ -37,6 +38,8 @@ char * str_of_table()
 	{
 		sprintf(str, "%s%s", str, str_of_table_ent(i));
 	}
+
+	return str;
 }
 
 char * str_of_table_ent(int i)
@@ -56,6 +59,7 @@ char * str_of_table_ent(int i)
 				rule.ack,
 				rule.action
 			);
+	return str;
 }
 
 
