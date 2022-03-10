@@ -102,7 +102,7 @@ ssize_t display(struct device *dev, struct device_attribute *attr, char *buf);
 // char * str_of_table();
 char * str_of_table_ent(int i);
 ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count);
-static int  my_filtering_table_init_function(void);
-static void  my_filtering_table_exit_function(void);
+static int  __init my_filtering_table_init_function(void);
+static void  __exit my_filtering_table_exit_function(void);
 
 #endif // _FW_H_
