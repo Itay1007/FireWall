@@ -67,12 +67,6 @@ static void __exit my_module_exit_function(void) {
 	nf_unregister_net_hook(&init_net, nfho);
 	kfree(nfho);
 
-
-	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
-	device_destroy(sysfs_class, MKDEV(major_number, 0));
-	class_destroy(sysfs_class);
-	unregister_chrdev(major_number, "Sysfs_Device");
-
 	my_filtering_table_exit_function();
 	//my_logs_table_exit_function();
 }
