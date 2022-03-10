@@ -68,16 +68,16 @@ ssize_t modify(struct device *dev, struct device_attribute *attr, const char *bu
 {	
 	// split the big string by entries of firewall table
 	
-	fw_free_ent_index = 0;
-	int temp;
-	char * str_fw_table;
-	char * str_rule;
-	char * str_rule_field;
-	const char sep[3] = "\r\n";
-	const char fields_sep[2] = " ";
-	sscanf(buf, "%s", &str_fw_table);
+	// fw_free_ent_index = 0;
+	// int temp;
+	// char * str_fw_table;
+	// char * str_rule;
+	// char * str_rule_field;
+	// const char sep[3] = "\r\n";
+	// const char fields_sep[2] = " ";
+	// sscanf(buf, "%s", &str_fw_table);
 	
-	str_rule = strtok(str_fw_table, sep);
+	// str_rule = strtok(str_fw_table, sep);
 
 // 	while(str_rule != NULL)
 // 	{
@@ -154,8 +154,8 @@ ssize_t modify(struct device *dev, struct device_attribute *attr, const char *bu
 // 		str_rule = strtok(str_fw_table, NULL);
 // 	}
 
-// 	return count;	
-// }
+	return count;	
+}
 
 
 int verdict_packet(void *priv, struct sk_buff *skb, const struct nf_hook_state *state)
@@ -251,8 +251,3 @@ static void __exit my_filtering_table_exit_function(void) {
 
 module_init(my_module_init_function);
 module_exit(my_module_exit_function);
-
-
-
-
-
