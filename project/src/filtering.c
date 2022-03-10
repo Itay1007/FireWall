@@ -3,7 +3,7 @@
 #define ACCEPT 1
 #define DROP 0
 
-char * str_of_table();
+char * str_of_table(void);
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
@@ -30,7 +30,7 @@ ssize_t display(struct device *dev, struct device_attribute *attr, char *buf)	//
 	//return scnprintf(buf, PAGE_SIZE, "%s", str_of_table()); // set format and data in file
 }
 
-char * str_of_table()
+char * str_of_table(void)
 {
 	char *str = "";
 
