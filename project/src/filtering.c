@@ -248,6 +248,3 @@ static void __exit my_filtering_table_exit_function(void) {
 	class_destroy(sysfs_class);
 	unregister_chrdev(major_number, "Sysfs_Device");
 }
-
-module_init(my_module_init_function);
-module_exit(my_module_exit_function);
