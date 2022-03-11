@@ -1,7 +1,7 @@
+#include "Filtering.h"s
+
 #define ACCEPT 1
 #define DROP 0
-
-char * str_of_table(void);
 
 static rule_t fw_table[MAX_RULES];
 static int fw_free_ent_index = 0;

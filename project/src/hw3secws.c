@@ -6,6 +6,7 @@
 #include <linux/device.h>
 
 #include "fw.h"
+#include "Filtering.h"
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
@@ -23,23 +24,15 @@ static struct file_operations fops = {
 };
 
 
-
-// static unsigned int packets_accept_number = 0;
-// static unsigned int packets_drop_number = 0;
 static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO , display, modify);
-
-
-
 
 static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 			  const struct nf_hook_state *state)
 {
-	int valid = verdict_packet(priv, skb, state);
-	
-	if(valid) return NF_ACCEPT;
-	
+	return NF_ACCEPT;
+	// int valid = verdict_packet(priv, skb, state);
+	// if(valid) return NF_ACCEPT;
 	//update_log_table(priv, skb, state);
-	return NF_DROP;
 }
 
 /*
@@ -106,19 +99,20 @@ static int __init my_module_init_function(void) {
  * we remove the module from the kernel
  */
 static void __exit my_module_exit_function(void) {
-
+	// delete the network handler resources
 	nf_unregister_net_hook(&init_net, nfho);
 	kfree(nfho);
 
+	// delete the sysfs device for the filtering table
 	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
 	class_destroy(sysfs_class);
 	unregister_chrdev(major_number, "Sysfs_Device");
 
-
-	my_filtering_table_exit_function();
-	//my_logs_table_exit_function();
+	// delete the char device for the logs
 }
 
+// call this init function when loading this kernel module 
 module_init(my_module_init_function);
+// call this exit function when unloading this kernel module 
 module_exit(my_module_exit_function);
