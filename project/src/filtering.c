@@ -1,10 +1,10 @@
-#include "Filtering.h"s
+#include "Filtering.h"
 
 #define ACCEPT 1
 #define DROP 0
 
-static rule_t fw_table[MAX_RULES];
-static int fw_free_ent_index = 0;
+// static rule_t fw_table[MAX_RULES];
+// static int fw_free_ent_index = 0;
 
 char * str_of_table(void)
 {
