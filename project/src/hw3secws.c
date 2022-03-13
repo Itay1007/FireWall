@@ -30,9 +30,6 @@ static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 			  const struct nf_hook_state *state)
 {
 	return NF_ACCEPT;
-	// int valid = verdict_packet(priv, skb, state);
-	// if(valid) return NF_ACCEPT;
-	//update_log_table(priv, skb, state);
 }
 
 /*

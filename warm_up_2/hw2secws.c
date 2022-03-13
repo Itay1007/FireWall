@@ -29,7 +29,6 @@ static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 	return NF_DROP;
 }
 
-
 /* packets between server and FW or client and FW is accepted */
 static unsigned int hfuncInInput(void *priv, struct sk_buff *skb,
 			  const struct nf_hook_state *state)
