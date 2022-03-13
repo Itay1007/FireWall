@@ -14,7 +14,6 @@ MODULE_AUTHOR("Itay Barok");
 /* create a global struct variable to use the hook of Netfilter*/
 static struct nf_hook_ops *nfho = NULL;
 
-
 static int major_number;
 static struct class* sysfs_class = NULL;
 static struct device* sysfs_device = NULL;
@@ -23,7 +22,6 @@ static struct file_operations fops = {
 	.owner = THIS_MODULE
 };
 
-
 static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO , display, modify);
 
 static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
@@ -31,6 +29,16 @@ static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 {
 	return NF_ACCEPT;
 }
+
+ssize_t display(struct device *dev, struct device_attribute *attr, char *buf)	//sysfs show implementation
+{
+	return 0;
+}
+ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)	//sysfs store implementation
+{	
+	return 0;	
+}
+
 
 /*
  * this initialization function is called first  
@@ -61,7 +69,7 @@ static int __init my_module_init_function(void) {
 		return -1;
 		
 	//create sysfs class
-	sysfs_class = class_create(THIS_MODULE, "fw");
+	sysfs_class = class_create(THIS_MODULE, "Sysfs_class");
 	if (IS_ERR(sysfs_class))
 	{
 		unregister_chrdev(major_number, "Sysfs_Device");
@@ -69,7 +77,7 @@ static int __init my_module_init_function(void) {
 	}
 	
 	//create sysfs device
-	sysfs_device = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "rules");	
+	sysfs_device = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "sysfs_class" "_" "sysfs_Device");	
 	if (IS_ERR(sysfs_device))
 	{
 		class_destroy(sysfs_class);
@@ -85,7 +93,6 @@ static int __init my_module_init_function(void) {
 		unregister_chrdev(major_number, "Sysfs_Device");
 		return -1;
 	}
-
 
 	return 0; /* if non-0 return means init_module failed */
 }
@@ -105,8 +112,6 @@ static void __exit my_module_exit_function(void) {
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
 	class_destroy(sysfs_class);
 	unregister_chrdev(major_number, "Sysfs_Device");
-
-	// delete the char device for the logs
 }
 
 // call this init function when loading this kernel module 
