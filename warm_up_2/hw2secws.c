@@ -15,7 +15,8 @@ MODULE_AUTHOR("Itay Barok");
 
 /* create a global struct variable to use the hook of Netfilter*/
 static struct nf_hook_ops *nfho = NULL;
-
+static struct nf_hook_ops *nfho2 = NULL;
+static struct nf_hook_ops *nfho3 = NULL;
 static unsigned int packets_accept_number = 0;
 static unsigned int packets_drop_number = 0;
 
