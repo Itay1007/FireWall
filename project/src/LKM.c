@@ -1,9 +1,4 @@
-#include <linux/kernel.h>
-#include <linux/module.h>
-#include <linux/fs.h>
-#include <linux/device.h>
-#include <linux/netfilter.h>
-#include <linux/netfilter_ipv4.h>
+
 #include "LKM.h"
 
 MODULE_LICENSE("GPL");
@@ -209,7 +204,7 @@ static int __init my_module_init_function(void) {
 	if(device_create_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr))
 	{
 		device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
-		device_destory(sysfs_class, MKDEV(major_number, 0));
+		device_destroy(sysfs_class, MKDEV(major_number, 0));
 		class_destroy(sysfs_class);
 		unregister_chrdev(major_number, "fw");
 		return -1;
@@ -219,7 +214,7 @@ static int __init my_module_init_function(void) {
 	{
 		device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
 		device_remove_file(sysfs_device_reset, (const struct device_attribute *)&dev_attr_sysfs_att2.attr);
-		device_destory(sysfs_class, MKDEV(major_number, 0));
+		device_destroy(sysfs_class, MKDEV(major_number, 0));
 		class_destroy(sysfs_class);
 		unregister_chrdev(major_number, "fw");
 		return -1;
