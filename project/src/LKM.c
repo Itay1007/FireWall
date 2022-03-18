@@ -15,7 +15,8 @@ static struct nf_hook_ops *nfho = NULL;
 
 static int major_number;
 static struct class* sysfs_class = NULL;
-static struct device* sysfs_device = NULL;
+static struct device* sysfs_device_rules = NULL;
+static struct device* sysfs_device_reset = NULL;
 
 static struct cdev c_dev;
 static struct device *dev;
@@ -43,7 +44,7 @@ int my_close(struct inode *_inode, struct file *_file)
 ssize_t my_read(struct file *flip, char* buff, size_t length, loff_t *offp)
 {
 	printk(KERN_INFO "Driver: read()\n");
-	return 0;inode
+	return 0;
 }
 
 ssize_t my_write(struct file *flip, char* buff, size_t length, loff_t *offp)
@@ -54,17 +55,14 @@ ssize_t my_write(struct file *flip, char* buff, size_t length, loff_t *offp)
 
 static struct file_operations fops = {
 	.owner = THIS_MODULE,
-	.open = my_write,
+	.open = my_open,
 	.release = my_close,
 	.read = my_read,
     .write = my_write
-}
+};
 
 
 // ---- Finished Itay Barok Custom file operations of the log char device ----
-
-
-
 
 
 // ---- Itay Barok Custom display and modify sysfs char ---- 
@@ -182,7 +180,7 @@ static int __init my_module_init_function(void) {
 
 
 
-	major_number = register_chrdev(0, "fw", &fop);
+	major_number = register_chrdev(0, "fw", &fops);
 
 	if(major_number < 0)
 	{
