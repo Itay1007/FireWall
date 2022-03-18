@@ -28,13 +28,13 @@ static struct class *cl; // Global variable for the device class
 // ---- Itay Barok Custom file operations of the log char device ----
 
 
-int my_open(struct *_inode, struct file *_file)
+int my_open(struct inode *_inode, struct file *_file)
 {
 	printk(KERN_INFO "Driver: open()\n");
 	return 0;
 }
 
-int my_close(struct *_inode, struct file *_file)
+int my_close(struct inode *_inode, struct file *_file)
 {
 	printk(KERN_INFO "Driver: close()\n");
 	return 0;
@@ -43,7 +43,7 @@ int my_close(struct *_inode, struct file *_file)
 ssize_t my_read(struct file *flip, char* buff, size_t length, loff_t *offp)
 {
 	printk(KERN_INFO "Driver: read()\n");
-	return 0;
+	return 0;inode
 }
 
 ssize_t my_write(struct file *flip, char* buff, size_t length, loff_t *offp)
