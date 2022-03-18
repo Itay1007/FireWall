@@ -4,7 +4,7 @@
 #include <linux/netfilter_ipv4.h>
 #include <linux/fs.h>
 #include <linux/device.h>
-
+#include <linux/uaccess.h>
 
 #define PACKET_ACCEPT_MSG "*** Packet Accepted ***"
 #define PACKET_DROP_MSG  "*** Packet Dropped ***"
