@@ -1,5 +1,5 @@
-#ifndef _FW_H_
-#define _FW_H_
+#ifndef _LKM_H_
+#define _LKM_H_
 
 #include <linux/module.h>
 #include <linux/kernel.h>
@@ -100,4 +100,4 @@ ssize_t display(struct device *dev, struct device_attribute *attr, char *buf);
 char * str_of_table_ent(int i);
 ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count);
 
-#endif // _FW_H_
+#endif // _LKM_H_
