@@ -47,7 +47,7 @@ ssize_t my_read(struct file *flip, char* buff, size_t length, loff_t *offp)
 	return 0;
 }
 
-ssize_t my_write(struct file *flip, char* buff, size_t length, loff_t *offp)
+ssize_t my_write(struct file *flip, const char* buff, size_t length, loff_t *offp)
 {
 	printk(KERN_INFO "Driver: write()\n");
 	return 0;
