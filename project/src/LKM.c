@@ -245,18 +245,19 @@ static void __exit my_module_exit_function(void) {
 	nf_unregister_net_hook(&init_net, nfho);
 	kfree(nfho);
 
-	// delete the char device
-	cdev_del(&c_dev);
-    device_destroy(cl, first);
-    class_destroy(cl);
-    unregister_chrdev_region(first, 1);
-    printk(KERN_INFO "Alvida: ofcd unregistered");
+	// // delete the char device
+	// cdev_del(&c_dev);
+ //    device_destroy(cl, first);
+ //    class_destroy(cl);
+ //    unregister_chrdev_region(first, 1);
+ //    printk(KERN_INFO "Alvida: ofcd unregistered");
 	
 	// delete the sysfs devices
-	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
+	device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
+	device_remove_file(sysfs_device_reset, (const struct device_attribute *)&dev_attr_sysfs_att2.attr);
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
 	class_destroy(sysfs_class);
-	unregister_chrdev(major_number, "Sysfs_Device");
+	unregister_chrdev(major_number, "fw");
 }
 
 // call this init function when loading this kernel module 
