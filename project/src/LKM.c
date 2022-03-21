@@ -13,12 +13,12 @@ static struct class* sysfs_class = NULL;
 static struct device* sysfs_device_rules = NULL;
 static struct device* sysfs_device_reset = NULL;
 
-static struct cdev c_dev;
-static struct device *dev;
+// static struct cdev c_dev;
+// static struct device *dev;
 
-static unsigned int sysfs_int = 0;
-static unsigned int sysfs_int_2 = 1;
-static struct class *cl; // Global variable for the device class
+// static unsigned int sysfs_int = 0;
+// static unsigned int sysfs_int_2 = 1;
+// static struct class *cl; // Global variable for the device class
 
 
 // ---- Itay Barok Custom file operations of the log char device ----
@@ -66,19 +66,16 @@ static struct file_operations fops = {
 
 ssize_t rules_display(struct device *dev, struct device_attribute *attr, char* buf)
 {
-	return scnprintf(buf, PAGE_SIZE, "%u\n", sysfs_int);
+	printk(KERN_INFO "rules_display()\n");
+	return 0;
+
+	// return scnprintf(buf, PAGE_SIZE, "%u\n", sysfs_int);
 }
 
 ssize_t rules_modify(struct device *dev, struct device_attribute *attr, const char* buf, size_t count)
 {
-	int temp;
-
-	if(sscanf(buf, "%u", &temp == 1))
-	{
-		sysfs_int = temp;
-	}
-
-	return count;
+	printk(KERN_INFO "rules_modify()\n");
+	return 0;
 }
 
 // connect the sysfs devices to their corresponding modify (write like)
@@ -98,19 +95,17 @@ static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO , rules_display, rules_modify);
 
 ssize_t reset_display(struct device *dev, struct device_attribute *attr, char* buf)
 {
-	return scnprintf(buf, PAGE_SIZE, "%u\n", sysfs_int_2);
+	printk(KERN_INFO "rules_display()\n");
+	return 0;
+	// return scnprintf(buf, PAGE_SIZE, "%u\n", sysfs_int_2);
 }
 
 ssize_t reset_modify(struct device *dev, struct device_attribute *attr, const char* buf, size_t count)
 {
-	int temp;
+	printk(KERN_INFO "rules_display()\n");
+	return 0;
 
-	if(sscanf(buf, "%u", &temp == 1))
-	{
-		sysfs_int_2 = temp;
-	}
-
-	return count;
+	// return count;
 }
 
 // connect the sysfs devices to their corresponding modify (write like)
