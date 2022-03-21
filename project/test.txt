@@ -1,3 +1,0 @@
-mplicit declaration of function ‘device_destory’ [-Werror=implicit-function-declaration]
-   device_destory(sysfs_class, MKDEV(major_number, 0));
-
