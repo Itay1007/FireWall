@@ -1,6 +1,7 @@
-[1] finish warmup1 - DONE
-[2] finish warmup2 - DONE
-[3] finish the implementaions of logs_table, fw_table and hw3sews - part 3
-[4] create dynamic inspection table for tracking tcp connections and correctness 
-[+] and inspect the data itself not metadata - part 4
-[5] protect against a real world cve from last year using the FireWall - final part
+## Creating the FileWall Checkpoint and Tel Aviv University Collaboration Project
+[1] finish warmup1: on netfilter and linux kernel module - DONE
+[2] finish warmup2: same subjects as before yet added more logic, sysfs and user interface - DONE
+[3] finish the implementations of logs table, filtering table and LKM: same subjects like previously but much more logic, more devices and code - part 3
+[4] create dynamic inspection table for tracking tcp connections and correctness
+[+] and inspect the data itself not metadata as previously - part 4
+[5] protect against a real world CVE from last year using the FireWall - final part
