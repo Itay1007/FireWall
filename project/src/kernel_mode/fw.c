@@ -1,5 +1,5 @@
 
-#include "LKM.h"
+#include "fw.h"
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
@@ -110,13 +110,11 @@ ssize_t reset_modify(struct device *dev, struct device_attribute *attr, const ch
 
 // connect the sysfs devices to their corresponding modify (write like)
 // and display (read like) interface functions
-static DEVICE_ATTR(sysfs_att2, S_IWUSR | S_IRUGO , reset_display, reset_modify);
 
+static DEVICE_ATTR(sysfs_att2, S_IWUSR | S_IRUGO , reset_display, reset_modify);
 
 // ---- Finshed Itay Barok Custom display and modify sysfs char ---- 
 // ----	of the log reset char device 							----
-
-
 
 
 static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
