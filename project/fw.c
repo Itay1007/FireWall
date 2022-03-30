@@ -168,50 +168,50 @@ static int __init my_module_init_function(void) {
 
 
 
-	major_number = register_chrdev(0, "fw", &fops);
+	// major_number = register_chrdev(0, "fw", &fops);
 
-	if(major_number < 0)
-	{
-		return -1;
-	}
+	// if(major_number < 0)
+	// {
+	// 	return -1;
+	// }
 
-	sysfs_class = class_create(THIS_MODULE, "fw");
+	// sysfs_class = class_create(THIS_MODULE, "fw");
 
 
-	if(IS_ERR(sysfs_class))
-	{
-		unregister_chrdev(major_number, "fw");
-		return -1;
-	}
+	// if(IS_ERR(sysfs_class))
+	// {
+	// 	unregister_chrdev(major_number, "fw");
+	// 	return -1;
+	// }
 
-	sysfs_device_rules = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "rules");
-	sysfs_device_reset = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "log");
+	// sysfs_device_rules = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "rules");
+	// sysfs_device_reset = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "log");
 
-	if(IS_ERR(sysfs_class))
-	{
-		class_destroy(sysfs_class);
-		unregister_chrdev(major_number, "fw");
-		return -1;
-	}
+	// if(IS_ERR(sysfs_class))
+	// {
+	// 	class_destroy(sysfs_class);
+	// 	unregister_chrdev(major_number, "fw");
+	// 	return -1;
+	// }
 
-	if(device_create_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr))
-	{
-		device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
-		device_destroy(sysfs_class, MKDEV(major_number, 0));
-		class_destroy(sysfs_class);
-		unregister_chrdev(major_number, "fw");
-		return -1;
-	}
+	// if(device_create_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr))
+	// {
+	// 	device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
+	// 	device_destroy(sysfs_class, MKDEV(major_number, 0));
+	// 	class_destroy(sysfs_class);
+	// 	unregister_chrdev(major_number, "fw");
+	// 	return -1;
+	// }
 
-	if(device_create_file(sysfs_device_reset, (const struct device_attribute *)&dev_attr_sysfs_att2.attr))
-	{
-		device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
-		device_remove_file(sysfs_device_reset, (const struct device_attribute *)&dev_attr_sysfs_att2.attr);
-		device_destroy(sysfs_class, MKDEV(major_number, 0));
-		class_destroy(sysfs_class);
-		unregister_chrdev(major_number, "fw");
-		return -1;
-	}
+	// if(device_create_file(sysfs_device_reset, (const struct device_attribute *)&dev_attr_sysfs_att2.attr))
+	// {
+	// 	device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
+	// 	device_remove_file(sysfs_device_reset, (const struct device_attribute *)&dev_attr_sysfs_att2.attr);
+	// 	device_destroy(sysfs_class, MKDEV(major_number, 0));
+	// 	class_destroy(sysfs_class);
+	// 	unregister_chrdev(major_number, "fw");
+	// 	return -1;
+	// }
 	
 
 	// ---- finished createing the reset sysfs device ----
@@ -239,11 +239,12 @@ static void __exit my_module_exit_function(void) {
  //    printk(KERN_INFO "Alvida: ofcd unregistered");
 	
 	// delete the sysfs devices
-	device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
-	device_remove_file(sysfs_device_reset, (const struct device_attribute *)&dev_attr_sysfs_att2.attr);
-	device_destroy(sysfs_class, MKDEV(major_number, 0));
-	class_destroy(sysfs_class);
-	unregister_chrdev(major_number, "fw");
+	
+	// device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
+	// device_remove_file(sysfs_device_reset, (const struct device_attribute *)&dev_attr_sysfs_att2.attr);
+	// device_destroy(sysfs_class, MKDEV(major_number, 0));
+	// class_destroy(sysfs_class);
+	// unregister_chrdev(major_number, "fw");
 }
 
 // call this init function when loading this kernel module 
