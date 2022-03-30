@@ -11,7 +11,7 @@ static struct nf_hook_ops *nfho = NULL;
 static int major_number;
 static struct class* sysfs_class = NULL;
 static struct device* sysfs_device_rules = NULL;
-static struct device* sysfs_device_reset = NULL;
+// static struct device* sysfs_device_reset = NULL;
 
 // static struct cdev c_dev;
 // static struct device *dev;
@@ -49,11 +49,11 @@ static struct device* sysfs_device_reset = NULL;
 // }
 
 static struct file_operations fops = {
-	.owner = THIS_MODULE,
-	.open = my_open,
-	.release = my_close,
-	.read = my_read,
-    .write = my_write
+	.owner = THIS_MODULE//,
+	// .open = my_open,
+	// .release = my_close,
+	// .read = my_read,
+    // .write = my_write
 };
 
 
