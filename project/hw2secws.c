@@ -51,7 +51,7 @@ ssize_t modify(struct device *dev, struct device_attribute *attr, const char *bu
 	return count;	
 }
 
-static DEVICE_ATTR(rules, S_IWUSR | S_IRUGO , display, modify);
+static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO , display, modify);
 
 /*
  * this initialization function is called first  
