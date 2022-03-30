@@ -83,7 +83,7 @@ static int __init my_module_init_function(void) {
 	}
 	
 	//create sysfs device
-	sysfs_device = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "sysfs_class" "_" "sysfs_Device");	
+	sysfs_device = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "rules");	
 	if (IS_ERR(sysfs_device))
 	{
 		class_destroy(sysfs_class);
