@@ -6,7 +6,7 @@ MODULE_AUTHOR("Itay Barok");
 
 /* create a global struct variable to use the hook of Netfilter*/
 static struct nf_hook_ops *nfho = NULL;
-
+//
 
 static int major_number;
 static struct class* sysfs_class = NULL;
