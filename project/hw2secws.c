@@ -29,33 +29,6 @@ static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 	return NF_DROP;
 }
 
-/* packets between server and FW or client and FW is accepted */
-static unsigned int hfuncInInput(void *priv, struct sk_buff *skb,
-			  const struct nf_hook_state *state)
-{
-	if(!skb)
-		return NF_ACCEPT;
-	
-	packets_accept_number++;
-
-	printk(PACKET_ACCEPT_MSG);
-	return NF_ACCEPT;
-}
-
-/* packets between server and FW or client and FW is accepted */
-static unsigned int hfuncInLocalOut(void *priv, struct sk_buff *skb,
-			  const struct nf_hook_state *state)
-{
-	if(!skb)
-		return NF_ACCEPT;
-
-	packets_accept_number++;
-
-	printk(PACKET_ACCEPT_MSG);
-	return NF_ACCEPT;
-}
-
-
 static int major_number;
 static struct class* sysfs_class = NULL;
 static struct device* sysfs_device = NULL;
