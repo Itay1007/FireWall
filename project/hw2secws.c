@@ -36,7 +36,7 @@ static struct device* sysfs_device = NULL;
 static struct file_operations fops = {
 	.owner = THIS_MODULE
 };
-
+//ds
 ssize_t display(struct device *dev, struct device_attribute *attr, char *buf)	//sysfs show implementation
 {
 	return scnprintf(buf, PAGE_SIZE, "%u\n%u\n", packets_accept_number, packets_drop_number); // set format and data in file
