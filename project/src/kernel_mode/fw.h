@@ -1,5 +1,5 @@
-#ifndef _LKM_H_
-#define _LKM_H_
+#ifndef _FW_H_
+#define _FW_H_
 
 #include <linux/module.h>
 #include <linux/kernel.h>
