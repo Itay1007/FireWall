@@ -51,7 +51,7 @@ ssize_t modify(struct device *dev, struct device_attribute *attr, const char *bu
 	return count;	
 }
 
-static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO , display, modify);
+static DEVICE_ATTR(rules, S_IWUSR | S_IRUGO , display, modify);
 
 /*
  * this initialization function is called first  
@@ -70,24 +70,24 @@ static int __init my_module_init_function(void) {
 		return -1;
 
 	//create char device
-	major_number = register_chrdev(0, "Sysfs_Device", &fops);
+	major_number = register_chrdev(0, "rules", &fops);
 	if (major_number < 0)
 		return -1;
 		
 	//create sysfs class
-	sysfs_class = class_create(THIS_MODULE, "Sysfs_class");
+	sysfs_class = class_create(THIS_MODULE, "fw");
 	if (IS_ERR(sysfs_class))
 	{
-		unregister_chrdev(major_number, "Sysfs_Device");
+		unregister_chrdev(major_number, "rules");
 		return -1;
 	}
 	
 	//create sysfs device
-	sysfs_device = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "sysfs_class" "_" "sysfs_Device");	
+	sysfs_device = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "rules");	
 	if (IS_ERR(sysfs_device))
 	{
 		class_destroy(sysfs_class);
-		unregister_chrdev(major_number, "Sysfs_Device");
+		unregister_chrdev(major_number, "rules");
 		return -1;
 	}
 	
@@ -96,7 +96,7 @@ static int __init my_module_init_function(void) {
 	{
 		device_destroy(sysfs_class, MKDEV(major_number, 0));
 		class_destroy(sysfs_class);
-		unregister_chrdev(major_number, "Sysfs_Device");
+		unregister_chrdev(major_number, "rules");
 		return -1;
 	}
 	return 0; /* if non-0 return means init_module failed */
@@ -117,7 +117,7 @@ static void __exit my_module_exit_function(void) {
 	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
 	class_destroy(sysfs_class);
-	unregister_chrdev(major_number, "Sysfs_Device");
+	unregister_chrdev(major_number, "rules");
 }
 
 module_init(my_module_init_function);
