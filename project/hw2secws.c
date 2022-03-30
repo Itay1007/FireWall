@@ -16,8 +16,6 @@ MODULE_AUTHOR("Itay Barok");
 
 /* create a global struct variable to use the hook of Netfilter*/
 static struct nf_hook_ops *nfho = NULL;
-static struct nf_hook_ops *nfho2 = NULL;
-static struct nf_hook_ops *nfho3 = NULL;
 static unsigned int packets_accept_number = 0;
 static unsigned int packets_drop_number = 0;
 
@@ -89,8 +87,6 @@ static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO , display, modify);
 static int __init my_module_init_function(void) {
 	/* set the global struct pointer */
 	nfho = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
-	nfho2 = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
-	nfho3 = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
 	/* set the nfho fields */
 	nfho->hook = (nf_hookfn*) hfuncInForward; /* set the hook function */ 
@@ -99,24 +95,6 @@ static int __init my_module_init_function(void) {
 
 	if(nf_register_net_hook(&init_net, nfho))
 		return -1;
-
-	/* set the nfho fields */
-	nfho2->hook = (nf_hookfn*) hfuncInInput; /* set the hook function */ 
-	nfho2->hooknum = NF_INET_LOCAL_IN; /* verdict packet in the prerouting state*/
-	nfho2->pf = PF_INET; /* for IPv4 */
-	
-	if(nf_register_net_hook(&init_net, nfho2))
-		return -1;
-
-
-	/* set the nfho fields */
-	nfho3->hook = (nf_hookfn*) hfuncInLocalOut; /* set the hook function */ 
-	nfho3->hooknum = NF_INET_LOCAL_OUT; /* verdict packet in the prerouting state*/
-	nfho3->pf = PF_INET; /* for IPv4 */
-	
-	if(nf_register_net_hook(&init_net, nfho3))
-		return -1;
-	
 
 	//create char device
 	major_number = register_chrdev(0, "Sysfs_Device", &fops);
@@ -148,9 +126,6 @@ static int __init my_module_init_function(void) {
 		unregister_chrdev(major_number, "Sysfs_Device");
 		return -1;
 	}
-
-
-
 	return 0; /* if non-0 return means init_module failed */
 }
  
@@ -164,12 +139,7 @@ static int __init my_module_init_function(void) {
 static void __exit my_module_exit_function(void) {
 
 	nf_unregister_net_hook(&init_net, nfho);
-	nf_unregister_net_hook(&init_net, nfho2);
-	nf_unregister_net_hook(&init_net, nfho3);
 	kfree(nfho);
-	kfree(nfho2);
-	kfree(nfho3);
-
 
 	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
