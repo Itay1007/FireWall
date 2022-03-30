@@ -8,10 +8,10 @@ MODULE_AUTHOR("Itay Barok");
 static struct nf_hook_ops *nfho = NULL;
 
 
-static int major_number;
-static struct class* sysfs_class = NULL;
-static struct device* sysfs_device_rules = NULL;
-static struct device* sysfs_device_reset = NULL;
+// static int major_number;
+// static struct class* sysfs_class = NULL;
+// static struct device* sysfs_device_rules = NULL;
+// static struct device* sysfs_device_reset = NULL;
 
 // static struct cdev c_dev;
 // static struct device *dev;

@@ -8,10 +8,10 @@ MODULE_AUTHOR("Itay Barok");
 static struct nf_hook_ops *nfho = NULL;
 
 
-static int major_number;
-static struct class* sysfs_class = NULL;
-static struct device* sysfs_device_rules = NULL;
-static struct device* sysfs_device_reset = NULL;
+// static int major_number;
+// static struct class* sysfs_class = NULL;
+// static struct device* sysfs_device_rules = NULL;
+// static struct device* sysfs_device_reset = NULL;
 
 // static struct cdev c_dev;
 // static struct device *dev;
@@ -24,37 +24,37 @@ static struct device* sysfs_device_reset = NULL;
 // ---- Itay Barok Custom file operations of the log char device ----
 
 
-int my_open(struct inode *_inode, struct file *_file)
-{
-	printk(KERN_INFO "Driver: open()\n");
-	return 0;
-}
+// int my_open(struct inode *_inode, struct file *_file)
+// {
+// 	printk(KERN_INFO "Driver: open()\n");
+// 	return 0;
+// }
 
-int my_close(struct inode *_inode, struct file *_file)
-{
-	printk(KERN_INFO "Driver: close()\n");
-	return 0;
-}
+// int my_close(struct inode *_inode, struct file *_file)
+// {
+// 	printk(KERN_INFO "Driver: close()\n");
+// 	return 0;
+// }
 
-ssize_t my_read(struct file *flip, char* buff, size_t length, loff_t *offp)
-{
-	printk(KERN_INFO "Driver: read()\n");
-	return 0;
-}
+// ssize_t my_read(struct file *flip, char* buff, size_t length, loff_t *offp)
+// {
+// 	printk(KERN_INFO "Driver: read()\n");
+// 	return 0;
+// }
 
-ssize_t my_write(struct file *flip, const char* buff, size_t length, loff_t *offp)
-{
-	printk(KERN_INFO "Driver: write()\n");
-	return 0;
-}
+// ssize_t my_write(struct file *flip, const char* buff, size_t length, loff_t *offp)
+// {
+// 	printk(KERN_INFO "Driver: write()\n");
+// 	return 0;
+// }
 
-static struct file_operations fops = {
-	.owner = THIS_MODULE,
-	.open = my_open,
-	.release = my_close,
-	.read = my_read,
-    .write = my_write
-};
+// static struct file_operations fops = {
+// 	.owner = THIS_MODULE,
+// 	.open = my_open,
+// 	.release = my_close,
+// 	.read = my_read,
+//     .write = my_write
+// };
 
 
 // ---- Finished Itay Barok Custom file operations of the log char device ----
@@ -93,25 +93,25 @@ static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO , rules_display, rules_modify);
 // ----	of the log reset char device 					----
 
 
-ssize_t reset_display(struct device *dev, struct device_attribute *attr, char* buf)
-{
-	printk(KERN_INFO "rules_display()\n");
-	return 0;
-	// return scnprintf(buf, PAGE_SIZE, "%u\n", sysfs_int_2);
-}
+// ssize_t reset_display(struct device *dev, struct device_attribute *attr, char* buf)
+// {
+// 	printk(KERN_INFO "rules_display()\n");
+// 	return 0;
+// 	// return scnprintf(buf, PAGE_SIZE, "%u\n", sysfs_int_2);
+// }
 
-ssize_t reset_modify(struct device *dev, struct device_attribute *attr, const char* buf, size_t count)
-{
-	printk(KERN_INFO "rules_display()\n");
-	return 0;
+// ssize_t reset_modify(struct device *dev, struct device_attribute *attr, const char* buf, size_t count)
+// {
+// 	printk(KERN_INFO "rules_display()\n");
+// 	return 0;
 
-	// return count;
-}
+// 	// return count;
+// }
 
 // connect the sysfs devices to their corresponding modify (write like)
 // and display (read like) interface functions
 
-static DEVICE_ATTR(sysfs_att2, S_IWUSR | S_IRUGO , reset_display, reset_modify);
+// static DEVICE_ATTR(sysfs_att2, S_IWUSR | S_IRUGO , reset_display, reset_modify);
 
 // ---- Finshed Itay Barok Custom display and modify sysfs char ---- 
 // ----	of the log reset char device 							----
@@ -168,40 +168,40 @@ static int __init my_module_init_function(void) {
 
 
 
-	// major_number = register_chrdev(0, "fw", &fops);
+	major_number = register_chrdev(0, "fw", &fops);
 
-	// if(major_number < 0)
-	// {
-	// 	return -1;
-	// }
+	if(major_number < 0)
+	{
+		return -1;
+	}
 
-	// sysfs_class = class_create(THIS_MODULE, "fw");
+	sysfs_class = class_create(THIS_MODULE, "fw");
 
 
-	// if(IS_ERR(sysfs_class))
-	// {
-	// 	unregister_chrdev(major_number, "fw");
-	// 	return -1;
-	// }
+	if(IS_ERR(sysfs_class))
+	{
+		unregister_chrdev(major_number, "fw");
+		return -1;
+	}
 
-	// sysfs_device_rules = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "rules");
+	sysfs_device_rules = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "rules");
 	// sysfs_device_reset = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "log");
 
-	// if(IS_ERR(sysfs_class))
-	// {
-	// 	class_destroy(sysfs_class);
-	// 	unregister_chrdev(major_number, "fw");
-	// 	return -1;
-	// }
+	if(IS_ERR(sysfs_class))
+	{
+		class_destroy(sysfs_class);
+		unregister_chrdev(major_number, "fw");
+		return -1;
+	}
 
-	// if(device_create_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr))
-	// {
-	// 	device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
-	// 	device_destroy(sysfs_class, MKDEV(major_number, 0));
-	// 	class_destroy(sysfs_class);
-	// 	unregister_chrdev(major_number, "fw");
-	// 	return -1;
-	// }
+	if(device_create_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr))
+	{
+		// device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
+		device_destroy(sysfs_class, MKDEV(major_number, 0));
+		class_destroy(sysfs_class);
+		unregister_chrdev(major_number, "fw");
+		return -1;
+	}
 
 	// if(device_create_file(sysfs_device_reset, (const struct device_attribute *)&dev_attr_sysfs_att2.attr))
 	// {
@@ -240,11 +240,11 @@ static void __exit my_module_exit_function(void) {
 	
 	// delete the sysfs devices
 	
-	// device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
+	device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
 	// device_remove_file(sysfs_device_reset, (const struct device_attribute *)&dev_attr_sysfs_att2.attr);
-	// device_destroy(sysfs_class, MKDEV(major_number, 0));
-	// class_destroy(sysfs_class);
-	// unregister_chrdev(major_number, "fw");
+	device_destroy(sysfs_class, MKDEV(major_number, 0));
+	class_destroy(sysfs_class);
+	unregister_chrdev(major_number, "fw");
 }
 
 // call this init function when loading this kernel module 
