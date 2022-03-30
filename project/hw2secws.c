@@ -51,7 +51,7 @@ ssize_t modify(struct device *dev, struct device_attribute *attr, const char *bu
 	return count;	
 }
 
-static DEVICE_ATTR(sysfs_att, S_IWUSR | S_IRUGO , display, modify);
+static DEVICE_ATTR(rules, S_IWUSR | S_IRUGO , display, modify);
 
 /*
  * this initialization function is called first  
@@ -92,7 +92,7 @@ static int __init my_module_init_function(void) {
 	}
 	
 	//create sysfs file attributes	
-	if (device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att.attr))
+	if (device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_rules.attr))
 	{
 		device_destroy(sysfs_class, MKDEV(major_number, 0));
 		class_destroy(sysfs_class);
@@ -114,7 +114,7 @@ static void __exit my_module_exit_function(void) {
 	nf_unregister_net_hook(&init_net, nfho);
 	kfree(nfho);
 
-	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
+	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_rules.attr);
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
 	class_destroy(sysfs_class);
 	unregister_chrdev(major_number, "fw");

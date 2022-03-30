@@ -54,7 +54,7 @@ def cleanup_packets_status():
     """
         cleanup the packets file
     """
-    with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/sysfs_att", "w") as fd:
+    with open("/sys/class/Sysfs_class/sysfs_class_sysfs_Device/rules", "w") as fd:
         fd.truncate()
         fd.write("0\n0\n")
 
@@ -63,7 +63,7 @@ def show_packets_status():
     """
         show the packets on the file
     """
-    with open("/sys/class/fw/rules/sysfs_att") as fd:
+    with open("/sys/class/fw/rules/rules") as fd:
         lst_values = fd.read()
         values = lst_values.split("\n")
         accept_number = int(values[0]) # get the accept packets number
