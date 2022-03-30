@@ -8,10 +8,10 @@ MODULE_AUTHOR("Itay Barok");
 static struct nf_hook_ops *nfho = NULL;
 
 
-// static int major_number;
-// static struct class* sysfs_class = NULL;
-// static struct device* sysfs_device_rules = NULL;
-// static struct device* sysfs_device_reset = NULL;
+static int major_number;
+static struct class* sysfs_class = NULL;
+static struct device* sysfs_device_rules = NULL;
+static struct device* sysfs_device_reset = NULL;
 
 // static struct cdev c_dev;
 // static struct device *dev;
@@ -48,13 +48,13 @@ static struct nf_hook_ops *nfho = NULL;
 // 	return 0;
 // }
 
-// static struct file_operations fops = {
-// 	.owner = THIS_MODULE,
-// 	.open = my_open,
-// 	.release = my_close,
-// 	.read = my_read,
-//     .write = my_write
-// };
+static struct file_operations fops = {
+	.owner = THIS_MODULE,
+	.open = my_open,
+	.release = my_close,
+	.read = my_read,
+    .write = my_write
+};
 
 
 // ---- Finished Itay Barok Custom file operations of the log char device ----
@@ -168,19 +168,21 @@ static int __init my_module_init_function(void) {
 
 
 
-	major_number = register_chrdev(0, "fw", &fops);
+	// major_number = register_chrdev(0, "fw", &fops);
+	major_number = register_chrdev(0, "Sysfs_Device", &fops);
 
 	if(major_number < 0)
 	{
 		return -1;
 	}
 
-	sysfs_class = class_create(THIS_MODULE, "fw");
-
+	//sysfs_class = class_create(THIS_MODULE, "fw");
+	sysfs_class = class_create(THIS_MODULE, "Sysfs_class");
 
 	if(IS_ERR(sysfs_class))
 	{
-		unregister_chrdev(major_number, "fw");
+		//unregister_chrdev(major_number, "fw");
+		unregister_chrdev(major_number, "Sysfs_Device");
 		return -1;
 	}
 
@@ -190,7 +192,8 @@ static int __init my_module_init_function(void) {
 	if(IS_ERR(sysfs_class))
 	{
 		class_destroy(sysfs_class);
-		unregister_chrdev(major_number, "fw");
+		//unregister_chrdev(major_number, "fw");
+		unregister_chrdev(major_number, "Sysfs_Device");
 		return -1;
 	}
 
@@ -199,7 +202,8 @@ static int __init my_module_init_function(void) {
 		// device_remove_file(sysfs_device_rules, (const struct device_attribute *)&dev_attr_sysfs_att.attr);
 		device_destroy(sysfs_class, MKDEV(major_number, 0));
 		class_destroy(sysfs_class);
-		unregister_chrdev(major_number, "fw");
+		// unregister_chrdev(major_number, "fw");
+		unregister_chrdev(major_number, "Sysfs_Device");
 		return -1;
 	}
 
