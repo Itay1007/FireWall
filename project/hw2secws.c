@@ -75,7 +75,7 @@ static int __init my_module_init_function(void) {
 		return -1;
 		
 	//create sysfs class
-	sysfs_class = class_create(THIS_MODULE, "Sysfs_class");
+	sysfs_class = class_create(THIS_MODULE, "fw");
 	if (IS_ERR(sysfs_class))
 	{
 		unregister_chrdev(major_number, "fw");
