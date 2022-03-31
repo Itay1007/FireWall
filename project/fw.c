@@ -18,7 +18,7 @@ MODULE_AUTHOR("Itay Barok");
 static struct nf_hook_ops *nfho = NULL;
 static struct nf_hook_ops *nfho2 = NULL;
 static struct nf_hook_ops *nfho3 = NULL;
-static unsigned int packets_accept_number = 0;
+// static unsigned int packets_accept_number = 0;
 static unsigned int packets_drop_number = 0;
 
 /* packets between server and client need to  be drop */
@@ -30,33 +30,6 @@ static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 	printk(PACKET_DROP_MSG);
 	return NF_DROP;
 }
-
-/* packets between server and FW or client and FW is accepted */
-static unsigned int hfuncInInput(void *priv, struct sk_buff *skb,
-			  const struct nf_hook_state *state)
-{
-	if(!skb)
-		return NF_ACCEPT;
-	
-	packets_accept_number++;
-
-	printk(PACKET_ACCEPT_MSG);
-	return NF_ACCEPT;
-}
-
-/* packets between server and FW or client and FW is accepted */
-static unsigned int hfuncInLocalOut(void *priv, struct sk_buff *skb,
-			  const struct nf_hook_state *state)
-{
-	if(!skb)
-		return NF_ACCEPT;
-
-	packets_accept_number++;
-
-	printk(PACKET_ACCEPT_MSG);
-	return NF_ACCEPT;
-}
-
 
 static int major_number;
 static struct class* sysfs_class = NULL;
