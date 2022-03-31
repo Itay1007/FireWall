@@ -32,12 +32,11 @@ static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 static int major_number;
 static struct class* sysfs_class = NULL;
 static struct device* sysfs_device = NULL;
-static struct device* sysfs_device_2 = NULL;
 
 static struct file_operations fops = {
 	.owner = THIS_MODULE
 };
-//ds
+
 ssize_t display(struct device *dev, struct device_attribute *attr, char *buf)	//sysfs show implementation
 {
 	return scnprintf(buf, PAGE_SIZE, "Accept: %u\nDropped: %u\n", packets_accept_number, packets_drop_number); // set format and data in file
@@ -52,23 +51,22 @@ ssize_t modify(struct device *dev, struct device_attribute *attr, const char *bu
 	return count;	
 }
 
-//ds
-// ssize_t display_2(struct device *dev, struct device_attribute *attr, char *buf)	//sysfs show implementation
-// {
-// 	return scnprintf(buf, PAGE_SIZE, "Accept: %u\nDropped: %u\n", packets_accept_number, packets_drop_number); // set format and data in file
-// }
+ssize_t another_display(struct device *dev, struct device_attribute *attr, char *buf)	//sysfs show implementation
+{
+	return scnprintf(buf, PAGE_SIZE, "Another Accept: %u\nAnother Dropped: %u\n", packets_accept_number, packets_drop_number); // set format and data in file
+}
 
-// ssize_t modify_2(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)	//sysfs store implementation
-// {	
-// 	//cleanup of the packets values
-// 	packets_accept_number = 0;
-// 	packets_drop_number = 0;
+ssize_t another_modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)	//sysfs store implementation
+{	
+	//cleanup of the packets values
+	packets_accept_number = 100;
+	packets_drop_number = 100;
 	
-// 	return count;	
-// }
+	return count;	
+}
 
 static DEVICE_ATTR(my_life_my_rules, S_IWUSR | S_IRUGO , display, modify);
-// static DEVICE_ATTR(my_world_inside, S_IWUSR | S_IRUGO , display_2, modify_2);
+static DEVICE_ATTR(my_world_inside, S_IWUSR | S_IRUGO , another_display, another_modify);
 
 /*
  * this initialization function is called first  
@@ -126,14 +124,14 @@ static int __init my_module_init_function(void) {
 		return -1;
 	}
 
-	// // create sysfs file attributes	
-	// if (device_create_file(sysfs_device_2, (const struct device_attribute *)&dev_attr_my_world_inside.attr))
-	// {
-	// 	device_destroy(sysfs_class, MKDEV(major_number, 0));
-	// 	class_destroy(sysfs_class);
-	// 	unregister_chrdev(major_number, "rules");
-	// 	return -1;
-	// }
+	// create sysfs file attributes	
+	if (device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_world_inside.attr))
+	{
+		device_destroy(sysfs_class, MKDEV(major_number, 0));
+		class_destroy(sysfs_class);
+		unregister_chrdev(major_number, "rules");
+		return -1;
+	}
 
 	return 0; /* if non-0 return means init_module failed */
 }
@@ -151,7 +149,7 @@ static void __exit my_module_exit_function(void) {
 	kfree(nfho);
 
 	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_life_my_rules.attr);
-	// device_remove_file(sysfs_device_2, (const struct device_attribute *)&dev_attr_my_world_inside.attr);
+	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_world_inside.attr);
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
 	class_destroy(sysfs_class);
 	unregister_chrdev(major_number, "rules");
