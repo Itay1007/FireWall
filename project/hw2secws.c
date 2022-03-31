@@ -52,8 +52,23 @@ ssize_t modify(struct device *dev, struct device_attribute *attr, const char *bu
 	return count;	
 }
 
+//ds
+ssize_t display_2(struct device *dev, struct device_attribute *attr, char *buf)	//sysfs show implementation
+{
+	return scnprintf(buf, PAGE_SIZE, "Accept: %u\nDropped: %u\n", packets_accept_number, packets_drop_number); // set format and data in file
+}
+
+ssize_t modify_2(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)	//sysfs store implementation
+{	
+	//cleanup of the packets values
+	packets_accept_number = 0;
+	packets_drop_number = 0;
+	
+	return count;	
+}
+
 static DEVICE_ATTR(my_life_my_rules, S_IWUSR | S_IRUGO , display, modify);
-static DEVICE_ATTR(my_world_inside, S_IWUSR | S_IRUGO , display, modify);
+static DEVICE_ATTR(my_world_inside, S_IWUSR | S_IRUGO , display_2, modify_2);
 
 /*
  * this initialization function is called first  
