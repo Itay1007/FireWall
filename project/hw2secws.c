@@ -32,7 +32,7 @@ static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 static int major_number;
 static struct class* sysfs_class = NULL;
 static struct device* sysfs_device = NULL;
-static struct device* sysfs_device_2 = NULL;
+// static struct device* sysfs_device_2 = NULL;
 
 static struct file_operations fops = {
 	.owner = THIS_MODULE
