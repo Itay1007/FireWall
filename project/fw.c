@@ -41,7 +41,7 @@ static struct file_operations fops = {
 
 ssize_t display(struct device *dev, struct device_attribute *attr, char *buf)	//sysfs show implementation
 {
-	return scnprintf(buf, PAGE_SIZE, "%u\n%u\n", packets_accept_number, packets_drop_number); // set format and data in file
+	return scnprintf(buf, PAGE_SIZE, "Acceped: %u\nDropped: %u\n", packets_accept_number, packets_drop_number); // set format and data in file
 }
 
 ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)	//sysfs store implementation
