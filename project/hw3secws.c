@@ -19,6 +19,10 @@ static int major_number;
 static struct class* sysfs_class = NULL;
 static struct device* sysfs_device = NULL;
 
+static dev_t first; // Global variable for the first device number
+static struct cdev c_dev; // Global variable for the character device structure
+static struct class *cl; // Global variable for the device class
+
 static struct file_operations rules_fops = {
 	.owner = THIS_MODULE
 };
