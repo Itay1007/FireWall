@@ -56,7 +56,7 @@ static DEVICE_ATTR(my_world_inside, S_IWUSR | S_IRUGO , another_display, another
 
 
 
-static int my_open(struct inode  *i, strtuct file *f)
+static int my_open(struct inode  *i, struct file *f)
 {
 	printk(KERN_INFO "Driver: open()\n");
 	return 0;
