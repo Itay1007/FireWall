@@ -11,7 +11,7 @@ static struct nf_hook_ops *nfho = NULL;
 static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 			  const struct nf_hook_state *state)
 {
-	printk(KERN_INFO "hfuncInForward\n");
+	printk(KERN_INFO "hfuncInForward()\n");
 	return NF_ACCEPT;
 }
 
@@ -25,30 +25,26 @@ static struct file_operations rules_fops = {
 
 ssize_t display(struct device *dev, struct device_attribute *attr, char *buf)	//sysfs show implementation
 {
-	return scnprintf(buf, PAGE_SIZE, "Accept: %u\nDropped: %u\n", packets_accept_number, packets_drop_number); // set format and data in file
+	printk(KERN_INFO "display()\n");
+	return 0;
 }
 
 ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)	//sysfs store implementation
 {	
-	//cleanup of the packets values
-	packets_accept_number = 0;
-	packets_drop_number = 0;
-	
-	return count;	
+	printk(KERN_INFO "modify()\n");
+	return 0;
 }
 
 ssize_t another_display(struct device *dev, struct device_attribute *attr, char *buf)	//sysfs show implementation
 {
-	return scnprintf(buf, PAGE_SIZE, "Another Accept: %u\nAnother Dropped: %u\n", packets_accept_number, packets_drop_number); // set format and data in file
+	printk(KERN_INFO "another_display()\n");
+	return 0;
 }
 
 ssize_t another_modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)	//sysfs store implementation
 {	
-	//cleanup of the packets values
-	packets_accept_number = 100;
-	packets_drop_number = 100;
-	
-	return count;	
+	printk(KERN_INFO "another_modify()\n");
+	return 0;
 }
 
 static DEVICE_ATTR(my_life_my_rules, S_IWUSR | S_IRUGO , display, modify);
@@ -92,15 +88,6 @@ static int __init my_module_init_function(void) {
 		return -1;
 	}
 
-	//create sysfs device
-	// sysfs_device_2 = device_create(sysfs_class, NULL, MKDEV(major_number, 0), NULL, "rules");	
-	// if (IS_ERR(sysfs_device_2))
-	// {
-	// 	class_destroy(sysfs_class);
-	// 	unregister_chrdev(major_number, "rules");
-	// 	return -1;
-	// }
-	
 	//create sysfs file attributes	
 	if (device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_life_my_rules.attr))
 	{
