@@ -72,6 +72,7 @@ static int my_close(struct inode *i, struct file *f)
 static ssize_t my_read(struct file *f, char __user *buf, size_t len, loff_t *off)
 {
 	printk(KERN_INFO "Driver: read()\n");
+	return 0;
 }
 
 static ssize_t my_write(struct file *f, const char __user *buf, size_t len, loff_t *off)
