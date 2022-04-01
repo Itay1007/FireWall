@@ -182,14 +182,13 @@ static int __init my_module_init_function(void) {
 }
  
 
-
-
 /*
  * this function is called last when 
  * we remove the module from the kernel
  */
 static void __exit my_module_exit_function(void) {
 
+	printk(KERN_INFO "module exit()");
 	nf_unregister_net_hook(&init_net, nfho);
 	kfree(nfho);
 
@@ -198,6 +197,11 @@ static void __exit my_module_exit_function(void) {
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
 	class_destroy(sysfs_class);
 	unregister_chrdev(major_number, "rules");
+
+	cdev_del(&c_dev);
+    device_destroy(cl, first);
+    class_destroy(cl);
+    unregister_chrdev_region(first, 1);
 }
 
 module_init(my_module_init_function);
