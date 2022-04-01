@@ -168,7 +168,7 @@ static int __init my_module_init_function(void) {
         return PTR_ERR(dev_ret);
     }
 
-    cdev_init(&c_dev, &pugs_fops);
+    cdev_init(&c_dev, &log_fops);
     if ((ret = cdev_add(&c_dev, first, 1)) < 0)
     {
         device_destroy(cl, first);
