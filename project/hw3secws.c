@@ -50,11 +50,53 @@ ssize_t another_modify(struct device *dev, struct device_attribute *attr, const 
 static DEVICE_ATTR(my_life_my_rules, S_IWUSR | S_IRUGO , display, modify);
 static DEVICE_ATTR(my_world_inside, S_IWUSR | S_IRUGO , another_display, another_modify);
 
+
+
+static int my_open(struct inode  *i, strtuct file *f)
+{
+	printk(KERN_INFO "Driver: open()\n");
+	return 0;
+}
+
+static int my_close(struct inode *i, struct file *f)
+{
+	printk(KERN_INFO "Driver: read()\n");
+	return 0;
+}
+
+
+static ssize_t my_read(struct file *f, char __user *buf, size_t len, loff_t *off)
+{
+	printk(KERN_INFO "Driver: read()\n");
+}
+
+static ssize_t my_write(struct file *f, const char __user *buf, size_t len, loff_t *off)
+{
+	printk(KERN_INFO "Driver: write()\n");
+	return len;
+}
+
+
+static struct file_operations log_fops =
+{
+	.owner = THIS_MODULE,
+	.open = my_open,
+	.release = my_close,
+	.read = my_read,
+	.write = my_write
+};
+
+
 /*
  * this initialization function is called first  
  * when we insert the module to the kernel
  */
 static int __init my_module_init_function(void) {
+	int ret;
+	struct device *dev_ret;
+
+	printk(KERN_INFO "In module init()");
+
 	/* set the global struct pointer */
 	nfho = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
@@ -105,6 +147,31 @@ static int __init my_module_init_function(void) {
 		unregister_chrdev(major_number, "rules");
 		return -1;
 	}
+
+    if ((ret = alloc_chrdev_region(&first, 0, 1, "Shweta")) < 0)
+    {
+        return ret;
+    }
+    if (IS_ERR(cl = class_create(THIS_MODULE, "chardrv")))
+    {
+        unregister_chrdev_region(first, 1);
+        return PTR_ERR(cl);
+    }
+    if (IS_ERR(dev_ret = device_create(cl, NULL, first, NULL, "mynull")))
+    {
+        class_destroy(cl);
+        unregister_chrdev_region(first, 1);
+        return PTR_ERR(dev_ret);
+    }
+
+    cdev_init(&c_dev, &pugs_fops);
+    if ((ret = cdev_add(&c_dev, first, 1)) < 0)
+    {
+        device_destroy(cl, first);
+        class_destroy(cl);
+        unregister_chrdev_region(first, 1);
+        return ret;
+    }
 
 	return 0; /* if non-0 return means init_module failed */
 }
