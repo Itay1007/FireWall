@@ -1,13 +1,3 @@
-// #include <linux/kernel.h>
-// #include <linux/module.h>
-// #include <linux/netfilter.h>
-// #include <linux/netfilter_ipv4.h>
-// #include <linux/fs.h>
-// #include <linux/device.h>
-// #include <linux/uaccess.h>
-
-#define PACKET_ACCEPT_MSG "*** Packet Accepted ***"
-#define PACKET_DROP_MSG  "*** Packet Dropped ***"
 
 #include "fw.h"
 
@@ -16,24 +6,20 @@ MODULE_AUTHOR("Itay Barok");
 
 /* create a global struct variable to use the hook of Netfilter*/
 static struct nf_hook_ops *nfho = NULL;
-static unsigned int packets_accept_number = 0;
-static unsigned int packets_drop_number = 0;
 
 /* packets between server and client need to  be drop */
 static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
 			  const struct nf_hook_state *state)
 {
-	packets_drop_number++;
-
-	printk(PACKET_DROP_MSG);
-	return NF_DROP;
+	printk(KERN_INFO "hfuncInForward\n");
+	return NF_ACCEPT;
 }
 
 static int major_number;
 static struct class* sysfs_class = NULL;
 static struct device* sysfs_device = NULL;
 
-static struct file_operations fops = {
+static struct file_operations rules_fops = {
 	.owner = THIS_MODULE
 };
 
@@ -85,7 +71,7 @@ static int __init my_module_init_function(void) {
 		return -1;
 
 	//create char device
-	major_number = register_chrdev(0, "rules", &fops);
+	major_number = register_chrdev(0, "rules", &rules_fops);
 	if (major_number < 0)
 		return -1;
 		

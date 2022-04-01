@@ -1,15 +1,7 @@
-// #include <linux/kernel.h>
-// #include <linux/module.h>
-// #include <linux/netfilter.h>
-// #include <linux/netfilter_ipv4.h>
-// #include <linux/fs.h>
-// #include <linux/device.h>
-// #include <linux/uaccess.h>
 #include "fw.h"
 
 #define PACKET_ACCEPT_MSG "*** Packet Accepted ***"
 #define PACKET_DROP_MSG  "*** Packet Dropped ***"
-//ad
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
@@ -41,7 +33,7 @@ static struct file_operations fops = {
 
 ssize_t display(struct device *dev, struct device_attribute *attr, char *buf)	//sysfs show implementation
 {
-	return scnprintf(buf, PAGE_SIZE, "Acceped: %u\nDropped: %u\n", packets_accept_number, packets_drop_number); // set format and data in file
+	return scnprintf(buf, PAGE_SIZE, "Acceped: %u\nDropped:%u\n", packets_accept_number, packets_drop_number); // set format and data in file
 }
 
 ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)	//sysfs store implementation
