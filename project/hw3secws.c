@@ -23,25 +23,25 @@ static struct file_operations rules_fops = {
 	.owner = THIS_MODULE
 };
 
-ssize_t display(struct device *dev, struct device_attribute *attr, char *buf)	//sysfs show implementation
+ssize_t display(struct device *dev, struct device_attribute *attr, char *buf)
 {
 	printk(KERN_INFO "display()\n");
 	return 0;
 }
 
-ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)	//sysfs store implementation
+ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
 {	
 	printk(KERN_INFO "modify()\n");
 	return 0;
 }
 
-ssize_t another_display(struct device *dev, struct device_attribute *attr, char *buf)	//sysfs show implementation
+ssize_t another_display(struct device *dev, struct device_attribute *attr, char *buf)
 {
 	printk(KERN_INFO "another_display()\n");
 	return 0;
 }
 
-ssize_t another_modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)	//sysfs store implementation
+ssize_t another_modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
 {	
 	printk(KERN_INFO "another_modify()\n");
 	return 0;
