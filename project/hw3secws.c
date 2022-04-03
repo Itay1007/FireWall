@@ -188,8 +188,8 @@ static void __exit my_module_exit_function(void) {
 
 	printk(KERN_INFO "Itay's exit()");
 	
-	// nf_unregister_net_hook(&init_net, nfho);
-	// kfree(nfho);
+	nf_unregister_net_hook(&init_net, nfho);
+	kfree(nfho);
 
 	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_life_my_rules.attr);
 	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_world_inside.attr);
