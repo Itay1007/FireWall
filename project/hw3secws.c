@@ -25,10 +25,6 @@ static dev_t first; // Global variable for the first device number
 static struct cdev c_dev; // Global variable for the character device structure
 static struct class *cl; // Global variable for the device class
 
-// static struct file_operations rules_fops = {
-// 	.owner = THIS_MODULE
-// };
-
 ssize_t display(struct device *dev, struct device_attribute *attr, char *buf)
 {
 	printk(KERN_INFO "display()\n");
