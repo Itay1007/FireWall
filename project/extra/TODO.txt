@@ -1,0 +1,6 @@
+[1] finish warmup1 - DONE
+[2] finish warmup2 - DONE
+[3] finish the implementaions of logs_table, fw_table and hw3sews - part 3
+[4] create dynamic inspection table for tracking tcp connections and correctness 
+[+] and inspect the data itself not metadata - part 4
+[5] protect against a real world cve from last year using the FireWall - final part
