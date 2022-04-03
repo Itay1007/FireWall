@@ -1,4 +1,5 @@
 alias clean='make clean'
+alias all='make all'
 alias pull='git pull'
 alias load='insmod hw3secws.ko'
 alias unload='rmmod hw3secws'
