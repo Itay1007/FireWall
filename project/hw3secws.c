@@ -25,32 +25,32 @@ static dev_t first; // Global variable for the first device number
 static struct cdev c_dev; // Global variable for the character device structure
 static struct class *cl; // Global variable for the device class
 
-ssize_t display(struct device *dev, struct device_attribute *attr, char *buf)
+ssize_t fw_rules_display(struct device *dev, struct device_attribute *attr, char *buf)
 {
 	printk(KERN_INFO "display()\n");
 	return 0;
 }
 
-ssize_t modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
+ssize_t fw_rules_modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
 {	
 	printk(KERN_INFO "modify()\n");
 	return 0;
 }
 
-ssize_t another_display(struct device *dev, struct device_attribute *attr, char *buf)
+ssize_t fw_reset_display(struct device *dev, struct device_attribute *attr, char *buf)
 {
-	printk(KERN_INFO "another_display()\n");
+	printk(KERN_INFO "fw_reset_display()\n");
 	return 0;
 }
 
-ssize_t another_modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
+ssize_t fw_reset_modify(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
 {	
-	printk(KERN_INFO "another_modify()\n");
+	printk(KERN_INFO "fw_reset_modify()\n");
 	return 0;
 }
 
-static DEVICE_ATTR(fw_rules, S_IWUSR | S_IRUGO , display, modify);
-static DEVICE_ATTR(fw_reset, S_IWUSR | S_IRUGO , another_display, another_modify);
+static DEVICE_ATTR(fw_rules, S_IWUSR | S_IRUGO , fw_rules_display, fw_rules_modify);
+static DEVICE_ATTR(fw_reset, S_IWUSR | S_IRUGO , fw_reset_display, fw_reset_modify);
 
 
 
