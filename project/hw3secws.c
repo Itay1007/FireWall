@@ -104,16 +104,16 @@ static int __init my_module_init_function(void) {
 
 	printk(KERN_INFO "Itay Barok's init()");
 
-	/* set the global struct pointer */
-	nfho = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
+	// /* set the global struct pointer */
+	// nfho = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
-	/* set the nfho fields */
-	nfho->hook = (nf_hookfn*) hfuncInForward; /* set the hook function */ 
-	nfho->hooknum = NF_INET_FORWARD; /* verdict packet in the prerouting state*/
-	nfho->pf = PF_INET; /* for IPv4 */
+	// /* set the nfho fields */
+	// nfho->hook = (nf_hookfn*) hfuncInForward;  // set the hook function  
+	// nfho->hooknum = NF_INET_FORWARD; /* verdict packet in the prerouting state*/
+	// nfho->pf = PF_INET; /* for IPv4 */
 
-	if(nf_register_net_hook(&init_net, nfho))
-		return -1;
+	// if(nf_register_net_hook(&init_net, nfho))
+	// 	return -1;
 
 	//create char device
 	major_number = register_chrdev(0, "rules", &rules_fops);
@@ -195,11 +195,11 @@ static void __exit my_module_exit_function(void) {
 	// nf_unregister_net_hook(&init_net, nfho);
 	// kfree(nfho);
 
-	// device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_life_my_rules.attr);
-	// device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_world_inside.attr);
-	// device_destroy(sysfs_class, MKDEV(major_number, 0));
-	// class_destroy(sysfs_class);
-	// unregister_chrdev(major_number, "rules");
+	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_life_my_rules.attr);
+	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_world_inside.attr);
+	device_destroy(sysfs_class, MKDEV(major_number, 0));
+	class_destroy(sysfs_class);
+	unregister_chrdev(major_number, "rules");
 
 	cdev_del(&c_dev);
     device_destroy(cl, first);
