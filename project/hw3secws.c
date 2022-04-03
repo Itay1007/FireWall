@@ -116,7 +116,7 @@ static int __init my_module_init_function(void) {
 	// 	return -1;
 
 	//create char device
-	major_number = register_chrdev(0, "rules", &rules_fops);
+	major_number = register_chrdev(0, "rules", &log_fops); // &rules_fops);
 	if (major_number < 0)
 		return -1;
 		
