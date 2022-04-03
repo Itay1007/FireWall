@@ -17,9 +17,9 @@ MODULE_AUTHOR("Itay Barok");
 // 	return NF_ACCEPT;
 // }
 
-// static int major_number;
-// static struct class* sysfs_class = NULL;
-// static struct device* sysfs_device = NULL;
+static int major_number;
+static struct class* sysfs_class = NULL;
+static struct device* sysfs_device = NULL;
 
 static dev_t first; // Global variable for the first device number
 static struct cdev c_dev; // Global variable for the character device structure
