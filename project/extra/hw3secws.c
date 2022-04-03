@@ -131,6 +131,7 @@ static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
  */
 static int __init my_module_init_function(void) {
 
+	printk(KERN_INFO "in init()");
 	// ---- init network on farward handing ----
 
 	/* set the global struct pointer */
