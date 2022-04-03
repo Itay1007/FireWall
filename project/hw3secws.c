@@ -1,6 +1,8 @@
 
 #include "fw.h"
 
+#define LOG_CHAR_DEVICE_NAME "fw_log"
+
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
 
@@ -162,7 +164,7 @@ static int __init my_module_init_function(void) {
         unregister_chrdev_region(first, 1);
         return PTR_ERR(cl);
     }
-    if (IS_ERR(dev_ret = device_create(cl, NULL, first, NULL, "lsdaog")))
+    if (IS_ERR(dev_ret = device_create(cl, NULL, first, NULL, LOG_CHAR_DEVICE_NAME)))
     {
         class_destroy(cl);
         unregister_chrdev_region(first, 1);
