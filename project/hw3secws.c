@@ -49,8 +49,8 @@ ssize_t another_modify(struct device *dev, struct device_attribute *attr, const 
 	return 0;
 }
 
-static DEVICE_ATTR(my_life_my_rules, S_IWUSR | S_IRUGO , display, modify);
-static DEVICE_ATTR(my_world_inside, S_IWUSR | S_IRUGO , another_display, another_modify);
+static DEVICE_ATTR(fw_rules, S_IWUSR | S_IRUGO , display, modify);
+static DEVICE_ATTR(fw_reset, S_IWUSR | S_IRUGO , another_display, another_modify);
 
 
 
@@ -134,7 +134,7 @@ static int __init my_module_init_function(void) {
 	}
 
 	//create sysfs file attributes	
-	if (device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_life_my_rules.attr))
+	if (device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_fw_rules.attr))
 	{
 		device_destroy(sysfs_class, MKDEV(major_number, 0));
 		class_destroy(sysfs_class);
@@ -143,7 +143,7 @@ static int __init my_module_init_function(void) {
 	}
 
 	// create sysfs file attributes	
-	if (device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_world_inside.attr))
+	if (device_create_file(sysfs_device, (const struct device_attribute *)&dev_attr_fw_reset.attr))
 	{
 		device_destroy(sysfs_class, MKDEV(major_number, 0));
 		class_destroy(sysfs_class);
@@ -191,8 +191,8 @@ static void __exit my_module_exit_function(void) {
 	nf_unregister_net_hook(&init_net, nfho);
 	kfree(nfho);
 
-	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_life_my_rules.attr);
-	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_my_world_inside.attr);
+	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_fw_rules.attr);
+	device_remove_file(sysfs_device, (const struct device_attribute *)&dev_attr_fw_reset.attr);
 	device_destroy(sysfs_class, MKDEV(major_number, 0));
 	class_destroy(sysfs_class);
 	unregister_chrdev(major_number, "rules");
