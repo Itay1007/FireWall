@@ -64,7 +64,7 @@ static int my_open(struct inode  *i, struct file *f)
 
 static int my_close(struct inode *i, struct file *f)
 {
-	printk(KERN_INFO "Driver: read()\n");
+	printk(KERN_INFO "Driver: close()\n");
 	return 0;
 }
 
@@ -100,7 +100,7 @@ static int __init my_module_init_function(void) {
 	int ret;
 	struct device *dev_ret;
 
-	printk(KERN_INFO "In module init()");
+	printk(KERN_INFO "Itay Barok's init()");
 
 	// /* set the global struct pointer */
 	// nfho = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
@@ -188,7 +188,7 @@ static int __init my_module_init_function(void) {
  */
 static void __exit my_module_exit_function(void) {
 
-	printk(KERN_INFO "module exit()");
+	printk(KERN_INFO "Itay's exit()");
 	
 	// nf_unregister_net_hook(&init_net, nfho);
 	// kfree(nfho);
