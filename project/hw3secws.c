@@ -6,16 +6,16 @@
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Itay Barok");
 
-// /* create a global struct variable to use the hook of Netfilter*/
-// static struct nf_hook_ops *nfho = NULL;
+/* create a global struct variable to use the hook of Netfilter*/
+static struct nf_hook_ops *nfho = NULL;
 
-// /* packets between server and client need to  be drop */
-// static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
-// 			  const struct nf_hook_state *state)
-// {
-// 	printk(KERN_INFO "hfuncInForward()\n");
-// 	return NF_ACCEPT;
-// }
+/* packets between server and client need to  be drop */
+static unsigned int hfuncInForward(void *priv, struct sk_buff *skb,
+			  const struct nf_hook_state *state)
+{
+	printk(KERN_INFO "hfuncInForward()\n");
+	return NF_ACCEPT;
+}
 
 static int major_number;
 static struct class* sysfs_class = NULL;
@@ -104,16 +104,16 @@ static int __init my_module_init_function(void) {
 
 	printk(KERN_INFO "Itay Barok's init()");
 
-	// /* set the global struct pointer */
-	// nfho = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
+	/* set the global struct pointer */
+	nfho = (struct nf_hook_ops*)kcalloc(1, sizeof(struct nf_hook_ops), GFP_KERNEL);
 
-	// /* set the nfho fields */
-	// nfho->hook = (nf_hookfn*) hfuncInForward;  // set the hook function  
-	// nfho->hooknum = NF_INET_FORWARD; /* verdict packet in the prerouting state*/
-	// nfho->pf = PF_INET; /* for IPv4 */
+	/* set the nfho fields */
+	nfho->hook = (nf_hookfn*) hfuncInForward;  // set the hook function  
+	nfho->hooknum = NF_INET_FORWARD; /* verdict packet in the prerouting state*/
+	nfho->pf = PF_INET; /* for IPv4 */
 
-	// if(nf_register_net_hook(&init_net, nfho))
-	// 	return -1;
+	if(nf_register_net_hook(&init_net, nfho))
+		return -1;
 
 	//create char device
 	major_number = register_chrdev(0, "rules", &log_fops); // &rules_fops);
